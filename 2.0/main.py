@@ -11,11 +11,10 @@ cursor = conn.cursor()
 
 @route("/")
 def start():
-    print('test')
     sql_products = "SELECT product_name, description, brand, price, image FROM products"
     cursor.execute(sql_products)
     products = cursor.fetchall()
-    print('test1')
-    return template("bajs", products=products)
+    print(products)
+    return template("index", products=products)
 
-run(host="127.0.0.1", port=8081)
+run(host="127.0.0.1", port=8081, debug=True)
