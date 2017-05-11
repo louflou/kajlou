@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html lang="sv">
+    <head>
+        <meta charset="utf-8">
+        <title>Mörtfors Vitvaror</title>
+
+    </head>
+    <body>
+
+        <nav>
+            <ul>
+                <li></li>
+            </ul>
+        </nav>
+
+        <div>
+            {{for row in products %}}
+            <!--<img src={{"%s" (row[4])}}>-->
+            <h3>{{"%s" % (row[0])}}</h3>
+            <p>{{"%s" % (row[2])}}</p>
+            <p>{{"%s" % (row[1])}}</p>
+            <h4>{{"%s" % (row[3])}}</h4>
+            {{% endfor %}}
+        </div>
+
+    </body>
+
+
+</html>
