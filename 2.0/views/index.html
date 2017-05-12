@@ -17,6 +17,28 @@
                     <li><a href="/sort">Sortera...</a></li>
                 </ul>
             </nav>
+            <div class="row">
+                <div class="hej">
+                    <h4>Kategorier</h4>
+                    <ul>
+                        <li><a href="#">Tvättmaskin</a></li>
+                        <li><a href="#">Torktumlare</a></li>
+                        <li><a href="#">Diskmaskin</a></li>
+                        <li><a href="#">Kyl & Frys</a></li>
+                    </ul>
+                </div>
+                <div class="hej">
+                    <h4>Märken</h4>
+                    <ul>
+                        <li><a href="#">Bosch</a></li>
+                        <li><a href="#">Miele</a></li>
+                        <li><a href="#">Elektrolux</a></li>
+                        <li><a href="#">Sandstrøm</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            
             <h3>Alla produkter</h3>
             <div>
               % for row in products:
@@ -24,7 +46,7 @@
               <p> <img src="{{ (row[4]) }}"></p>
                 <article>
                   <h3>{{ (row[0]) }}</h3>
-                  <p>Märke: {{ (row[2]) }}</p>
+                  <p><i>Märke: {{ (row[2]) }}</i></p>
                   <p>{{ (row[1]) }}</p>
                   <h4>Pris: {{ (row[3]) }}:-</h4>
                 </article>
