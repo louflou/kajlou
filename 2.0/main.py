@@ -21,6 +21,11 @@ def start():
 def sort():
     return template("sort")
 
+@route("/static/<filename:path>")
+def send_static(filename):
+    return static_file(filename, root="./static/")
+
+
 #Tänker troligtvis fel här. Återkommer
 '''
 @route("/washer")
@@ -31,4 +36,5 @@ def washer():
     return redirect("/sorting", washer=washer)
 '''
     
-run(host="127.0.0.1", port=8081)
+run(reloader=True, host="127.0.0.1", port=8081)
+
