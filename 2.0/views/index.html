@@ -22,10 +22,12 @@
               % for row in products:
             <section>
               <p> <img src="{{ (row[4]) }}"></p>
-              <h3>{{ (row[0]) }}</h3>
-              <p>Märke: {{ (row[2]) }}</p>
-              <p>{{ (row[1]) }}</p>
-              <h4>Pris: {{ (row[3]) }}:-</h4>
+                <article>
+                  <h3>{{ (row[0]) }}</h3>
+                  <p>Märke: {{ (row[2]) }}</p>
+                  <p>{{ (row[1]) }}</p>
+                  <h4>Pris: {{ (row[3]) }}:-</h4>
+                </article>
             </section>
               % end
             </div>

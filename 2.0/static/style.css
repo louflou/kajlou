@@ -1,19 +1,20 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i');
+
 body {
     margin: 0;
     background-color:whitesmoke;
     color: darkgrey;
-    font-family: monospace;
+    font-family: 'Open Sans', sans-serif;
 }
 
 #wrapper {
-    width:90%;
+    width:1400px;
     margin: auto;
     background-color: white;
     overflow: hidden;
-    padding:20px;
+    padding:20px 40px;
 }
 nav {
-    color: coral;
     width:100%;
     margin: auto;
     background-color: white;
@@ -30,13 +31,39 @@ nav a {
     color: gainsboro;
 }
 section {
-    padding:20px 40px;
-    width: 33%;
+    opacity: 0.8;
+    transition: ease 1s;
+    padding: 30px;
+    //border:10px solid white;
+    width: 48%;
     float: left;
+    box-shadow:0 0 5px #ddd;
+    //border-radius: 4px;
+    margin: 1%;
     box-sizing: border-box;
-    height:700px;
+    //height:600px;
+}
+section:hover {
+    opacity: 1.0;
 }
 section img {
-    width:250px;
-    margin:auto;
+    display: inline;
+    width:35%;
+    float: left;
+    //margin-left:10%;
 }
+section article {
+    width:60%;
+    float: left;
+    border:10px solid white;
+    overflow: scroll;
+    height: 250px;
+    box-sizing: border-box;
+    
+}
+
+
+
+
+
+
