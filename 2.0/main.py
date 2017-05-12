@@ -1,7 +1,7 @@
 # coding=utf-8
 import psycopg2
 import bottle 
-from bottle import route, run, template, os, static_file
+from bottle import route, run, template, os, static_file, debug
 
 #Konnectar till databsen
 conn = psycopg2.connect(dbname="ag8789", user="ag8789", password="cl934pos", host="pgserver.mah.se")
@@ -36,5 +36,5 @@ def washer():
     return redirect("/sorting", washer=washer)
 '''
     
-run(reloader=True, host="127.0.0.1", port=8081)
+run(reloader=True, host="127.0.0.1", port=8081, debug=True)
 

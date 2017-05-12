@@ -1,5 +1,42 @@
 body {
-    padding:50px;
-    background-color:darkslategrey;
-    color: white;
+    margin: 0;
+    background-color:whitesmoke;
+    color: darkgrey;
+    font-family: monospace;
+}
+
+#wrapper {
+    width:90%;
+    margin: auto;
+    background-color: white;
+    overflow: hidden;
+    padding:20px;
+}
+nav {
+    color: coral;
+    width:100%;
+    margin: auto;
+    background-color: white;
+    padding: 2px 12px; 
+}
+nav ul {
+    list-style: none;
+    padding: 0;
+}
+nav ul li {
+    display: inline;
+}
+nav a {
+    color: gainsboro;
+}
+section {
+    padding:20px 40px;
+    width: 33%;
+    float: left;
+    box-sizing: border-box;
+    height:700px;
+}
+section img {
+    width:250px;
+    margin:auto;
 }

@@ -7,22 +7,28 @@
 
     </head>
     <body>
-        <nav>
-          <h1>Mörtfors vitvaror</h1>
-          <h3>Alla produkter</h3>
-            <ul>
-                <li><a href="#">Meny</a></li>
-                <li><a href="/sort">Sortera...</a></li>
-            </ul>
-        </nav>
-        <div>
-          % for row in products:
-          <p> <img src="{{ (row[4]) }}"></p>
-          <h3>Namn: {{ (row[0]) }}</h3>
-          <p>Märke: {{ (row[2]) }}</p>
-          <p>Beskrivning: {{ (row[1]) }}</p>
-          <h4>Pris: {{ (row[3]) }}:-</h4>
-          % end
+        <div id="wrapper">
+            <header>
+                <h1>Mörtfors vitvaror</h1>
+            </header>
+            <nav>
+                <ul>
+                    <li><a href="#">Meny</a></li>
+                    <li><a href="/sort">Sortera...</a></li>
+                </ul>
+            </nav>
+            <h3>Alla produkter</h3>
+            <div>
+              % for row in products:
+            <section>
+              <p> <img src="{{ (row[4]) }}"></p>
+              <h3>{{ (row[0]) }}</h3>
+              <p>Märke: {{ (row[2]) }}</p>
+              <p>{{ (row[1]) }}</p>
+              <h4>Pris: {{ (row[3]) }}:-</h4>
+            </section>
+              % end
+            </div>
         </div>
     </body>
 </html>
