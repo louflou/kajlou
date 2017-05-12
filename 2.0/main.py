@@ -1,20 +1,34 @@
 # coding=utf-8
 import psycopg2
-import bottle
+import bottle 
 from bottle import route, run, template, os, static_file
 
-# connect
+#Konnectar till databsen
 conn = psycopg2.connect(dbname="ag8789", user="ag8789", password="cl934pos", host="pgserver.mah.se")
 
-# create cursor
+#Pekaren på databasen
 cursor = conn.cursor()
 
+#Visar 
 @route("/")
 def start():
     sql_products = "SELECT product_name, description, brand, price, image FROM products"
     cursor.execute(sql_products)
     products = cursor.fetchall()
-    print(products)
     return template("index", products=products)
 
-run(host="127.0.0.1", port=8081, debug=True)
+@route("/sort")
+def sort():
+    return template("sort")
+
+#Tänker troligtvis fel här. Återkommer
+'''
+@route("/washer")
+def washer():
+    sql_washer = "SELECT product_name, description, brand, price, image FROM products WHERE category=tvättmaskin"
+    cursor.execute(sql_washer)
+    washer = cursor.fetchall()
+    return redirect("/sorting", washer=washer)
+'''
+    
+run(host="127.0.0.1", port=8081)
