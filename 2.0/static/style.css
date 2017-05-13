@@ -1,12 +1,10 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i');
-
 body {
     margin: 0;
     background-color:whitesmoke;
     color: darkgrey;
     font-family: 'Open Sans', sans-serif;
 }
-
 #wrapper {
     width:1400px;
     margin: auto;
@@ -30,15 +28,20 @@ nav ul li {
 nav a {
     color: gainsboro;
 }
+.center {
+    text-align: center;
+}
+.gles {
+    letter-spacing: 1.5px;
+}
 section {
     opacity: 0.8;
     transition: ease 1s;
     padding: 30px;
-    //border:10px solid white;
+    border:1px dashed #ccc;
     width: 48%;
     float: left;
     box-shadow:0 0 5px #ddd;
-    //border-radius: 4px;
     margin: 1%;
     box-sizing: border-box;
     //height:600px;
