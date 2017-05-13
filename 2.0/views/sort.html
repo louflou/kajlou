@@ -2,23 +2,58 @@
 <html lang="sv">
     <head>
         <meta charset="utf-8">
+        <link rel="stylesheet" type="text/css" href="../static/style.css">
         <title>Mörtfors Vitvaror</title>
+
     </head>
     <body>
-        <nav>
-          <h1>Mörtfors vitvaror</h1>
-          <h3>Alla produkter</h3>
-          <ul>
-            <li><a href="/">Meny</a></li>
-            <li><a href="#">Sortera...</a></li>
-          </ul>
-        </nav>
-        <div>
-          <h2>Sortera efter... </h2>
-          <p><a href="/sorting">Tvättmaskiner</a></p>
-          <p><a href="/fridge">Kylskåp</a></p>
-          <p><a href="/oven">Spisar</a></p>
-          <p><a href="/dish">Diskmaskiner</a></p>
+        <div id="wrapper">
+            <header>
+                <h1>Mörtfors vitvaror</h1>
+            </header>
+            <nav>
+                <ul>
+                    <li><a href="#">Meny</a></li>
+                    <li><a href="/sort">Sortera</a></li>
+                </ul>
+            </nav>
+            <div class="row">
+                <div class="hej">
+                    <h4>Kategorier</h4>
+                    <ul>
+                        <li><a href="/sorting">Tvättmaskin & Torktumlare</a></li>
+                        <li><a href="/fridge">Kyl & Frys</a></li>
+                        <li><a href="/oven">Spisar</a></li>
+                        <li><a href="/dish">Diskmaskiner</a></li>
+                    </ul>
+                </div>
+                <div class="hej">
+                    <h4>Märken</h4>
+                    <ul>
+                        <li><a href="/bosch">Bosch</a></li>
+                        <li><a href="/miele">Miele</a></li>
+                        <li><a href="/elektrolux">Elektrolux</a></li>
+                        <li><a href="/sandstrom">Sandstrøm</a></li>
+                        <li><a href="/candy">Candy</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <h3 class="gles">ALLA PRODUKTER</h3>
+            <div>
+              % for row in products:
+            <section>
+              <p> <img src="{{ (row[4]) }}"></p>
+                <article>
+                  <h3>{{ (row[0]) }}</h3>
+                  <p><i>Märke: {{ (row[2]) }}</i></p>
+                  <p>{{ (row[1]) }}</p>
+                  <h4>Pris: {{ (row[3]) }}:-</h4>
+                </article>
+            </section>
+              % end
+            </div>
         </div>
     </body>
 </html>
+

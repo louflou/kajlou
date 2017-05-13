@@ -9,6 +9,12 @@ conn = psycopg2.connect(dbname="ag8789", user="ag8789", password="cl934pos", hos
 #Pekaren på databasen
 cursor = conn.cursor()
 
+def sort_brand(brand_name):
+    sql_sort_brand = "SELECT product_name, description, brand, price, image FROM products WHERE brand='"+ brand_name + "' ORDER BY product_name ASC"
+    cursor.execute(sql_sort_brand)
+    sort_brand = cursor.fetchall()
+    return template("index", products=sort_brand)
+
 #Visar 
 @route("/")
 def start():
@@ -17,10 +23,63 @@ def start():
     products = cursor.fetchall()
     return template("index", products=products)
 
-@route("/sort")
-def sort():
-    return template("sort")
+@route("/tvattmaskin")
+def sort_category():
+    sql_sort_category = "SELECT product_name, description, brand, price, image FROM products WHERE category='tvättmaskin' ORDER BY product_name ASC"
+    cursor.execute(sql_sort_category)
+    sort_category = cursor.fetchall()
+    return template("index", products=sort_category)
 
+@route("/kylskap")
+def sort_category():
+    sql_sort_category = "SELECT product_name, description, brand, price, image FROM products WHERE category='kylskåp' ORDER BY product_name ASC"
+    cursor.execute(sql_sort_category)
+    sort_category = cursor.fetchall()
+    return template("index", products=sort_category)
+
+@route("/spis")
+def sort_category():
+    sql_sort_category = "SELECT product_name, description, brand, price, image FROM products WHERE category='spis' ORDER BY product_name ASC"
+    cursor.execute(sql_sort_category)
+    sort_category = cursor.fetchall()
+    return template("index", products=sort_category)
+
+@route("/bosch")
+def sort_brand():
+    sql_sort_brand = "SELECT product_name, description, brand, price, image FROM products WHERE brand='Bosch' ORDER BY product_name ASC"
+    cursor.execute(sql_sort_brand)
+    sort_brand = cursor.fetchall()
+    return template("index", products=sort_brand)
+
+@route("/electrolux")
+def sort_brand():
+    sql_sort_brand = "SELECT product_name, description, brand, price, image FROM products WHERE brand='Electrolux' ORDER BY product_name ASC"
+    cursor.execute(sql_sort_brand)
+    sort_brand = cursor.fetchall()
+    return template("index", products=sort_brand)
+
+@route("/sandstrom")
+def sort_brand():
+    sql_sort_brand = "SELECT product_name, description, brand, price, image FROM products WHERE brand='Sandstrøm' ORDER BY product_name ASC"
+    cursor.execute(sql_sort_brand)
+    sort_brand = cursor.fetchall()
+    return template("index", products=sort_brand)
+
+@route("/candy")
+def sort_brand():
+    sql_sort_bosch = "SELECT product_name, description, brand, price, image FROM products WHERE brand='Candy' ORDER BY product_name ASC"
+    cursor.execute(sql_sort_bosch)
+    sort_bosch = cursor.fetchall()
+    return template("index", products=sort_bosch)
+
+@route("/miele")
+def sort_brand():
+    sql_sort_bosch = "SELECT product_name, description, brand, price, image FROM products WHERE brand='Miele' ORDER BY product_name ASC"
+    cursor.execute(sql_sort_bosch)
+    sort_bosch = cursor.fetchall()
+    return template("index", products=sort_bosch)
+
+# Laddar in CSS
 @route("/static/<filename:path>")
 def send_static(filename):
     return static_file(filename, root="./static/")
@@ -36,5 +95,5 @@ def washer():
     return redirect("/sorting", washer=washer)
 '''
     
-run(reloader=True, host="127.0.0.1", port=8081, debug=True)
+run(reloader=True, host="127.0.0.1", port=8089, debug=True)
 
