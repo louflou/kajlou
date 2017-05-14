@@ -13,18 +13,19 @@ create table customers(
 	address text not null,
 	postno text not null,
 	region text not null,
+	total_sales integer,
 	primary key(pno)
 );
 create table products(
 	product_id serial unique not null,
 	product_name text not null,
 	description text,
-	brand text not null, 
+	brand text not null,
 	price integer not null,
 	category text not null,
 	image text,
 	active boolean not null,
-	primary key(product_id)	
+	primary key(product_id)
 );
 create table staff(
 	staff_id serial unique not null,
@@ -62,7 +63,7 @@ create table sales(
 	quantity integer not null,
 	primary key(sales_id, product_id)
 );
-insert into staff (title, staff_name, phone, email) values 
+insert into staff (title, staff_name, phone, email) values
 	('Manager', 'Louise Flou', '076-045 94 48', 'louise@flou.eu'),
 	('Manager', 'Kajsa Araskoug', '076-207 22 48', 'kajsa.araskoug@gmail.com'),
 	('Vendor', 'Henry Ford', '075-231 90 00', 'henry@mortfors-vv.com');
@@ -79,21 +80,21 @@ insert into supplier(supplier_name, phone, website) values
 	('Miele', '040-129054', 'https://www.miele.se/');
 insert into products (product_name, description, brand, price, category, image, active) values
 	('Candy Tvättmaskin', 'Utrusta ditt hushåll med denna kraftfulla tvättmaskin från Candy och njut av kvalitativa tvättresultat.', 'Candy', 2990, 'tvättmaskin', 'https://tubby.scene7.com/is/image/tubby/CS1692D3?$prod_all4one$', true),
-	
+
 	('Electrolux FlexCare Tvättmaskin', 'Se till att dina kläder tvättas varsamt med denna tvättmaskin från Electrolux. Med AutoSense funktion och PowerJet teknik kan du enkelt justera tvättprocessen för att passa just dina behov.', 'Electrolux', 5795, 'tvättmaskin', 'https://tubby.scene7.com/is/image/tubby/EW81611F?$prod_all4one$', true),
-	
+
 	('Bosch HomeConnect Tvättmaskin', 'Denna tvättmaskin tillhör energiklass A+++, som är den bästa på marknaden.', 'Bosch', 7950, 'tvättmaskin', 'https://images.wagcdn.com/500/500/fill/p/prod_auto/frontbetjente-vaskemaskiner/wawh2668sn.jpg', true),
-	
+
 	('Sandstrøm Vinkyl', 'Vinkyl i elegant rostfri stål och stålhandtag för integrering eller placering under skåp. Energiklass C.', 'Sandstrøm', 6995, 'kylskåp', 'https://tubby.scene7.com/is/image/tubby/SIWC46B15E?$prod_all4one$', true),
-	
+
 	('Smeg Colonial Spis', '60 cm bred gasspis i retrodesign som kommer att förgylla ditt kök. Energiklass A.', 'Smeg', 15995, 'spis', 'https://tubby.scene7.com/is/image/tubby/CO68GMA8?$prod_all4one$', true),
-	
+
 	('Smeg diskmaskin (svart)', 'Diskmaskin med plats till 13 kuvert i tuff retrodesign från Smeg. Energiklass A+++.', 'Smeg', 11690, 'diskmaskin', 'https://tubby.scene7.com/is/image/tubby/ST2FABNE2?$prod_all4one$', true),
-	
+
 	('Helintegrerad diskmaskin XXL', 'Höjdjusterbar överkorg, Standardprogram, t.ex. ECO, Automatic och Intensiv 75°C', 'Miele', 15300, 'diskmaskin', 'https://www.miele.se/pmedia/30/Z17/20000130901-000-00_20000130901.jpg', false),
-	
+
 	('Bosch Vario Perfect Tvättmaskin', 'Maskinen har en kapacitet på 8 kg. Centrifugeringshastighet är upp till 1400 varv per minut. Det är en kolfri motor i tvättmaskinen. Har den bästa energiklassen på marknaden: A+++.', 'Bosch', 7490, 'tvättmaskin', 'https://images.wagcdn.com/1200/1200/fill/p/prod_auto/frontbetjente-vaskemaskiner/wat286i8sn.jpg',  false);
-	
+
 insert into inventory (product_id, supplier, product_cost, quantity) values
 	(1, 'Candy', 1500 ,8),
 	(2, 'Elektrolux', 4000, 12),
@@ -106,12 +107,10 @@ insert into inventory (product_id, supplier, product_cost, quantity) values
 	(9, 'Miele', 12400, 0),
 	(10, 'Bosch', 5590, 2);
 
-insert into sales_details(customer_id, staff_id, date, discount) values 
+insert into sales_details(customer_id, staff_id, date, discount) values
 	('791103-4551', 3, '2017-05-11', 0);
 
 insert into sales(sales_id, product_id, quantity) values
 	(1, 5, 1);
-	
-select * from inventory;
-	
 
+select * from inventory;
