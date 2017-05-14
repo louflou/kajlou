@@ -26,6 +26,20 @@
             <div class="row">
             </div>
             
+             % for row in customers:
+            <section>
+                <article>
+                  <h3>Personnummer: {{ (row[0]) }}</h3>
+                  <p>Namn: {{ (row[1]) }}</p>
+                  <p>Email: {{ (row[2]) }}</p>                   
+                  <p>Adress: {{ (row[3]) }}</p>                   
+                  <p>Postnr: {{ (row[4]) }}</p>                   
+                  <p>Ort: {{ (row[5]) }}</p>  
+                  <p>Handlat för: {{ (row[6]) }}</p>
+                </article>
+            </section>
+              % end
+            
            
             
             

@@ -21,8 +21,10 @@ def start():
 
 @route("/customers")
 def list_customers():
-    
-    return template("customers")
+    sql_customers = "SELECT * FROM customers"
+    cursor.execute(sql_customers)
+    customers = cursor.fetchall()
+    return template("customers", customers=customers)
 
 @route("/inventory")
 def list_products():
