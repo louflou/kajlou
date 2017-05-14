@@ -22,7 +22,6 @@ def start():
     products = cursor.fetchall()
     return template("index", products=products)
 
-
 @route("/tvattmaskin")
 def sort_category():
     sql_sort_category = "SELECT product_name, description, brand, price, image FROM products WHERE category='tvättmaskin' ORDER BY product_name ASC"
@@ -100,16 +99,6 @@ def sort_price():
     sort_price = cursor.fetchall()
     return template("index", products=sort_price)
 
-
-#Tänker troligtvis fel här. Återkommer
-'''
-@route("/washer")
-def washer():
-    sql_washer = "SELECT product_name, description, brand, price, image FROM products WHERE category=tvättmaskin"
-    cursor.execute(sql_washer)
-    washer = cursor.fetchall()
-    return redirect("/sorting", washer=washer)
-'''
     
-run(reloader=True, host="127.0.0.1", port=8095)
+run(host="127.0.0.1", port=8100)
 

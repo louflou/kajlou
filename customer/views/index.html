@@ -12,15 +12,15 @@
                 <h1>
                     <a href="/">Mörtfors vitvaror</a>
                 </h1>
-                <a href="/admin">admin</a>
             </header>
-            <nav>
-                <ul>
-                    <li><a href="/">Produkter</a></li>
-                    <li><a href="/sort">Sortera</a></li>
-                </ul>
-            </nav>
+            
             <div class="row">
+                <div class="hej">
+                    <form action="/search" method="post">
+                        <input type="text">
+                        <button type="submit">sök</button>
+                    </form>
+                </div>
                 <div class="hej">
                     <h4>Kategorier</h4>
                     <ul>
@@ -45,11 +45,12 @@
                     <ul>
                         <li><a href="/min_pris">Lägsta...</a></li>
                         <li><a href="/max_pris">Högsta...</a></li>
+                        <input type="range">
                     </ul>
                 </div>
                 
             </div>
-            <h3 class="gles">ALL PRODUCTS</h3>
+            <h3 class="gles">Produkter:</h3>
             <div>
               % for row in products:
             <section>
