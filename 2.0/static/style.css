@@ -5,6 +5,13 @@ body {
     color: darkgrey;
     font-family: 'Open Sans', sans-serif;
 }
+header h1 a {
+    text-decoration: none;
+    color:#555;
+}
+header h1 a:hover {
+    color:#222;
+}
 #wrapper {
     width:1400px;
     margin: auto;

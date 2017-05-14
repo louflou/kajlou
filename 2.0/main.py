@@ -9,19 +9,19 @@ conn = psycopg2.connect(dbname="ag8789", user="ag8789", password="cl934pos", hos
 #Pekaren på databasen
 cursor = conn.cursor()
 
-def sort_brand(brand_name):
-    sql_sort_brand = "SELECT product_name, description, brand, price, image FROM products WHERE brand='"+ brand_name + "' ORDER BY product_name ASC"
-    cursor.execute(sql_sort_brand)
-    sort_brand = cursor.fetchall()
-    return template("index", products=sort_brand)
+# Laddar in CSS
+@route("/static/<filename:path>")
+def send_static(filename):
+    return static_file(filename, root="./static/")
 
-#Visar 
+#Visar
 @route("/")
 def start():
     sql_products = "SELECT product_name, description, brand, price, image FROM products"
     cursor.execute(sql_products)
     products = cursor.fetchall()
     return template("index", products=products)
+
 
 @route("/tvattmaskin")
 def sort_category():
@@ -40,6 +40,13 @@ def sort_category():
 @route("/spis")
 def sort_category():
     sql_sort_category = "SELECT product_name, description, brand, price, image FROM products WHERE category='spis' ORDER BY product_name ASC"
+    cursor.execute(sql_sort_category)
+    sort_category = cursor.fetchall()
+    return template("index", products=sort_category)
+
+@route("/diskmaskin")
+def sort_category():
+    sql_sort_category = "SELECT product_name, description, brand, price, image FROM products WHERE category='diskmaskin' ORDER BY product_name ASC"
     cursor.execute(sql_sort_category)
     sort_category = cursor.fetchall()
     return template("index", products=sort_category)
@@ -67,22 +74,31 @@ def sort_brand():
 
 @route("/candy")
 def sort_brand():
-    sql_sort_bosch = "SELECT product_name, description, brand, price, image FROM products WHERE brand='Candy' ORDER BY product_name ASC"
-    cursor.execute(sql_sort_bosch)
-    sort_bosch = cursor.fetchall()
-    return template("index", products=sort_bosch)
+    sql_sort_brand = "SELECT product_name, description, brand, price, image FROM products WHERE brand='Candy' ORDER BY product_name ASC"
+    cursor.execute(sql_sort_brand)
+    sort_brand = cursor.fetchall()
+    return template("index", products=sort_brand)
 
 @route("/miele")
 def sort_brand():
-    sql_sort_bosch = "SELECT product_name, description, brand, price, image FROM products WHERE brand='Miele' ORDER BY product_name ASC"
-    cursor.execute(sql_sort_bosch)
-    sort_bosch = cursor.fetchall()
-    return template("index", products=sort_bosch)
+    sql_sort_brand = "SELECT product_name, description, brand, price, image FROM products WHERE brand='Miele' ORDER BY product_name ASC"
+    cursor.execute(sql_sort_brand)
+    sort_brand = cursor.fetchall()
+    return template("index", products=sort_brand)
 
-# Laddar in CSS
-@route("/static/<filename:path>")
-def send_static(filename):
-    return static_file(filename, root="./static/")
+@route("/min_pris")
+def sort_price():
+    sql_sort_price = "SELECT product_name, description, brand, price, image FROM products ORDER BY price asc"
+    cursor.execute(sql_sort_price)
+    sort_price = cursor.fetchall()
+    return template("index", products=sort_price)
+
+@route("/max_pris")
+def sort_price():
+    sql_sort_price = "SELECT product_name, description, brand, price, image FROM products ORDER BY price desc"
+    cursor.execute(sql_sort_price)
+    sort_price = cursor.fetchall()
+    return template("index", products=sort_price)
 
 
 #Tänker troligtvis fel här. Återkommer
@@ -95,5 +111,5 @@ def washer():
     return redirect("/sorting", washer=washer)
 '''
     
-run(reloader=True, host="127.0.0.1", port=8089, debug=True)
+run(reloader=True, host="127.0.0.1", port=8095)
 

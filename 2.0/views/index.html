@@ -9,11 +9,14 @@
     <body>
         <div id="wrapper">
             <header>
-                <h1>Mörtfors vitvaror</h1>
+                <h1>
+                    <a href="/">Mörtfors vitvaror</a>
+                </h1>
+                <a href="/admin">admin</a>
             </header>
             <nav>
                 <ul>
-                    <li><a href="#">Meny</a></li>
+                    <li><a href="/">Produkter</a></li>
                     <li><a href="/sort">Sortera</a></li>
                 </ul>
             </nav>
@@ -37,8 +40,16 @@
                         <li><a href="/candy">Candy</a></li>
                     </ul>
                 </div>
+                <div class="hej">
+                    <h4>Pris</h4>
+                    <ul>
+                        <li><a href="/min_pris">Lägsta...</a></li>
+                        <li><a href="/max_pris">Högsta...</a></li>
+                    </ul>
+                </div>
+                
             </div>
-            <h3 class="gles">ALLA PRODUKTER</h3>
+            <h3 class="gles">ALL PRODUCTS</h3>
             <div>
               % for row in products:
             <section>
@@ -46,8 +57,9 @@
                 <article>
                   <h3>{{ (row[0]) }}</h3>
                   <p><i>Märke: {{ (row[2]) }}</i></p>
+                  <h4 class="gles">{{ (row[3]) }}:-</h4>                    
                   <p>{{ (row[1]) }}</p>
-                  <h4>Pris: {{ (row[3]) }}:-</h4>
+                  
                 </article>
             </section>
               % end
