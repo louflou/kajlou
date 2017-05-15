@@ -2,7 +2,9 @@
 <html lang="sv">
     <head>
         <meta charset="utf-8">
-        <link rel="stylesheet" type="text/css" href="../static/style_inventory.css">
+        <link rel="stylesheet" type="text/css" href="../static/style.css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
         <title>Lager</title>
 
     </head>
@@ -32,22 +34,36 @@
                 </div> 
             </div>
             
-            <h3 class="gles">Produkter:</h3>
-            <div>
-              % for row in stock:
-            <section>
-              <img src="{{ (row[3]) }}">
+             % for row in stock:
+            <section class="stock">
+                
+                <img src="{{ (row[3]) }}">
                 <article>
-                  <h3>{{ (row[0]) }}</h3>
-                  <p><i>Märke: {{ (row[1]) }} Återförsäljare: {{ (row[4]) }}</i></p>
-                  <h4 class="gles">{{ (row[6]) }}:-</h4>                    
-                  <p>Säljpris: {{ (row[2]) }}</p>
-                  <h2>Lagerstatus: {{ (row[5]) }}</h2>
-                  
+                    <table id="inventory-table">
+                            
+                        <h3>{{ (row[1]) }} {{ (row[0]) }}</h3>
+                        
+                        <tr>
+                            <td><i class="material-icons">store</i></td>
+                            <td>{{ (row[4]) }}</td>
+                        </tr>
+                        <tr>
+                            <td><i class="material-icons">payment</i></td>
+                            <td>{{ (row[6]) }}kr </td>
+                        </tr>
+                        <tr>
+                            <td><i class="material-icons">assessment</i></td>
+                            <td>{{ (row[2])-(row[6]) }}kr</td>
+                        </tr>
+                        <tr>
+                            <td><i class="material-icons">receipt</i></td>
+                            <td>{{ (row[5]) }} st på lager</td>
+                        </tr>
+                    </table>
                 </article>
             </section>
+              
               % end
-            </div>
         </div>
     </body>
 </html>

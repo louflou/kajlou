@@ -61,7 +61,7 @@ def add_customer():
 
 @route("/inventory")
 def list_stock():
-    sql_get_stock = "SELECT product_name, brand, price, image, supplier, quantity, product_cost, category FROM (products JOIN inventory ON products.product_id=inventory.product_id)"
+    sql_get_stock = "SELECT product_name, brand, price, image, supplier, quantity, product_cost, category FROM (products JOIN inventory ON products.product_id=inventory.product_id) order by quantity ASC"
     cursor.execute(sql_get_stock);
     stock = cursor.fetchall()
     return template("inventory", stock=stock)

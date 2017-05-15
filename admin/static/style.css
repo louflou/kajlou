@@ -51,19 +51,20 @@ nav a .active {
     letter-spacing: 1.5px;
 }
 section {
-    //opacity: 0.8;
     transition: ease 1.5s;
     padding: 10px;
     border:1px dashed #eee;
     width: 22%;
     float: left;
-    //box-shadow:0 0 5px #ddd;
     margin: 1%;
     box-sizing: border-box;
-    //height:600px;
 }
-section:hover {
-    //opacity: 1.0;
+.stock img {
+    height: 100px;
+}
+
+#inventory-section {
+    width:40%;
 }
 section article {
     width:100%;
@@ -76,6 +77,10 @@ section article {
 th, td {
     padding:15px;
     text-align: left;
+}
+#inventory-table th, td{
+    padding: 8px !important;
+    text-align:left;
 }
 td a{
     color:#777;
