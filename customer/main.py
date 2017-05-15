@@ -17,87 +17,81 @@ def send_static(filename):
 #Visar
 @route("/")
 def start():
-    sql_products = "SELECT product_name, description, brand, price, image FROM products"
+    sql_products = "SELECT product_name, description, brand, price, image, category FROM products"
     cursor.execute(sql_products)
     products = cursor.fetchall()
-    return template("index", products=products)
+    
+    sql_category = "SELECT DISTINCT category FROM products"
+    cursor.execute(sql_category)
+    category = cursor.fetchall()
 
-@route("/tvattmaskin")
-def sort_category():
-    sql_sort_category = "SELECT product_name, description, brand, price, image FROM products WHERE category='tvättmaskin' ORDER BY product_name ASC"
-    cursor.execute(sql_sort_category)
-    sort_category = cursor.fetchall()
-    return template("index", products=sort_category)
+    sql_brand = "SELECT DISTINCT brand FROM products"
+    cursor.execute(sql_brand)
+    brand = cursor.fetchall()
+    
+    return template("index", products=products, category=category, brand=brand)
 
-@route("/kylskap")
-def sort_category():
-    sql_sort_category = "SELECT product_name, description, brand, price, image FROM products WHERE category='kylskåp' ORDER BY product_name ASC"
-    cursor.execute(sql_sort_category)
-    sort_category = cursor.fetchall()
-    return template("index", products=sort_category)
+@route("/category/<category>")
+def sort_category(category):
+    sql_sort_category = "SELECT product_name, description, brand, price, image, category FROM products WHERE category= %s ORDER BY product_name ASC"
+    cursor.execute(sql_sort_category, [category])
+    products = cursor.fetchall()
 
-@route("/spis")
-def sort_category():
-    sql_sort_category = "SELECT product_name, description, brand, price, image FROM products WHERE category='spis' ORDER BY product_name ASC"
-    cursor.execute(sql_sort_category)
-    sort_category = cursor.fetchall()
-    return template("index", products=sort_category)
+    sql_category = "SELECT DISTINCT category FROM products"
+    cursor.execute(sql_category)
+    category = cursor.fetchall()
 
-@route("/diskmaskin")
-def sort_category():
-    sql_sort_category = "SELECT product_name, description, brand, price, image FROM products WHERE category='diskmaskin' ORDER BY product_name ASC"
-    cursor.execute(sql_sort_category)
-    sort_category = cursor.fetchall()
-    return template("index", products=sort_category)
+    sql_brand = "SELECT DISTINCT brand FROM products"
+    cursor.execute(sql_brand)
+    brand = cursor.fetchall()
 
-@route("/bosch")
-def sort_brand():
-    sql_sort_brand = "SELECT product_name, description, brand, price, image FROM products WHERE brand='Bosch' ORDER BY product_name ASC"
-    cursor.execute(sql_sort_brand)
-    sort_brand = cursor.fetchall()
-    return template("index", products=sort_brand)
+    return template("category", products=products, category=category, brand=brand)
 
-@route("/electrolux")
-def sort_brand():
-    sql_sort_brand = "SELECT product_name, description, brand, price, image FROM products WHERE brand='Electrolux' ORDER BY product_name ASC"
-    cursor.execute(sql_sort_brand)
-    sort_brand = cursor.fetchall()
-    return template("index", products=sort_brand)
+@route("/brand/<brand>")
+def sort_brand(brand):
+    sql_sort_brand = "SELECT product_name, description, brand, price, image FROM products WHERE brand = %s ORDER BY product_name ASC"
+    cursor.execute(sql_sort_brand, [brand])
+    products = cursor.fetchall()
 
-@route("/sandstrom")
-def sort_brand():
-    sql_sort_brand = "SELECT product_name, description, brand, price, image FROM products WHERE brand='Sandstrøm' ORDER BY product_name ASC"
-    cursor.execute(sql_sort_brand)
-    sort_brand = cursor.fetchall()
-    return template("index", products=sort_brand)
+    sql_category = "SELECT DISTINCT category FROM products"
+    cursor.execute(sql_category)
+    category = cursor.fetchall()
 
-@route("/candy")
-def sort_brand():
-    sql_sort_brand = "SELECT product_name, description, brand, price, image FROM products WHERE brand='Candy' ORDER BY product_name ASC"
-    cursor.execute(sql_sort_brand)
-    sort_brand = cursor.fetchall()
-    return template("index", products=sort_brand)
+    sql_brand = "SELECT DISTINCT brand FROM products"
+    cursor.execute(sql_brand)
+    brand = cursor.fetchall()
 
-@route("/miele")
-def sort_brand():
-    sql_sort_brand = "SELECT product_name, description, brand, price, image FROM products WHERE brand='Miele' ORDER BY product_name ASC"
-    cursor.execute(sql_sort_brand)
-    sort_brand = cursor.fetchall()
-    return template("index", products=sort_brand)
+    return template("brand", products=products, category=category, brand=brand)
 
 @route("/min_pris")
 def sort_price():
-    sql_sort_price = "SELECT product_name, description, brand, price, image FROM products ORDER BY price asc"
+    sql_sort_price = "SELECT product_name, description, brand, price, image FROM products ORDER BY price ASC"
     cursor.execute(sql_sort_price)
-    sort_price = cursor.fetchall()
-    return template("index", products=sort_price)
+    products = cursor.fetchall()
+
+    sql_category = "SELECT DISTINCT category FROM products"
+    cursor.execute(sql_category)
+    category = cursor.fetchall()
+
+    sql_brand = "SELECT DISTINCT brand FROM products"
+    cursor.execute(sql_brand)
+    brand = cursor.fetchall()
+    return template("price", products=products, category=category, brand=brand)
 
 @route("/max_pris")
 def sort_price():
-    sql_sort_price = "SELECT product_name, description, brand, price, image FROM products ORDER BY price desc"
+    sql_sort_price = "SELECT product_name, description, brand, price, image FROM products ORDER BY price DESC"
     cursor.execute(sql_sort_price)
-    sort_price = cursor.fetchall()
-    return template("index", products=sort_price)
+    products = cursor.fetchall()
+
+    sql_category = "SELECT DISTINCT category FROM products"
+    cursor.execute(sql_category)
+    category = cursor.fetchall()
+
+    sql_brand = "SELECT DISTINCT brand FROM products"
+    cursor.execute(sql_brand)
+    brand = cursor.fetchall()
+    return template("price", products=products, category=category, brand=brand)
 
     
 run(host="127.0.0.1", port=8100)
