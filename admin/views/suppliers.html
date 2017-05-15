@@ -2,6 +2,7 @@
 <html lang="sv">
     <head>
         <meta charset="utf-8">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="../static/style.css">
         <title>Kundlista</title>
 
@@ -18,14 +19,38 @@
                     <li><a href="/customers">Kundlista</a></li>
                     <li><a href="/inventory">Lager</a></li>
                     <li><a href="/sales">Kvitton</a></li>
-                    <li><a class="active" href="/suppliers">Återförsäljare</a></li>
+                    <li><a class="active" href="/supplier">Återförsäljare</a></li>
                 </ul>
             </nav>
             
             
             <div class="row">
+                <ul>
+                    <li><a href="/supplier/name">Kontakt</a></li>
+                    <li><a href="/supplier/add">Lägg till</a></li>
+                </ul>
             </div>
             
+             % for row in supplier:
+            <section>
+                <article>
+                    <table>
+                        <tr>
+                            <th><i class="material-icons">group_work</i></th>
+                            <th>{{ (row[0]) }}</th>
+                        </tr>
+                        <tr>
+                            <td><i class="material-icons">phone</i></td>
+                            <td>{{ (row[1]) }}</td>
+                        </tr>
+                        <tr>
+                            <td><i class="material-icons">web</i></td>
+                            <td>{{ (row[2]) }}</td>
+                        </tr>
+                    </table>
+                </article>
+            </section>
+              % end
            
             
             

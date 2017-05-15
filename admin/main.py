@@ -21,7 +21,21 @@ def start():
 
 @route("/customers")
 def list_customers():
-    sql_customers = "SELECT * FROM customers"
+    sql_customers = "SELECT * FROM customers ORDER BY total_sales DESC"
+    cursor.execute(sql_customers)
+    customers = cursor.fetchall()
+    return template("customers", customers=customers)
+
+@route("/customers/name")
+def list_customers():
+    sql_customers = "SELECT * FROM customers ORDER BY customer_name ASC"
+    cursor.execute(sql_customers)
+    customers = cursor.fetchall()
+    return template("customers", customers=customers)
+
+@route("/customers/region")
+def list_customers():
+    sql_customers = "SELECT * FROM customers ORDER BY region ASC"
     cursor.execute(sql_customers)
     customers = cursor.fetchall()
     return template("customers", customers=customers)
@@ -35,8 +49,11 @@ def list_sales():
     return template("sales")
 
 @route("/suppliers")
-def list_suppliers():
-    return template("suppliers")
+def list_supplier():
+    sql_supplier = "SELECT * FROM supplier ORDER BY supplier_name ASC"
+    cursor.execute(sql_supplier)
+    supplier = cursor.fetchall()
+    return template("suppliers", supplier=supplier)
     
-run(host="127.0.0.1", port=8106)
+run(host="127.0.0.1", port=8108)
 
