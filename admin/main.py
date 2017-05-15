@@ -55,14 +55,24 @@ def add_customer():
 
 @route("/inventory")
 def list_stock():
-    sql_get_stock = "SELECT product_name, brand, price, image, supplier, quantity, product_cost, category FROM (products JOIN inventory ON products.product_id=inventory.product_id) order by quantity ASC"
-    cursor.execute(sql_get_stock);
+    sql_get_stock = "SELECT product_name, brand, price, image, supplier, quantity, product_cost, category FROM (products JOIN inventory ON products.product_id=inventory.product_id) WHERE quantity > 0 ORDER BY product_name ASC"
+    cursor.execute(sql_get_stock)
     stock = cursor.fetchall()
     return template("inventory", stock=stock)
 
+@route("/out_of_stock")
+def list_out_of_stock():
+    sql_out_of_stock = "SELECT product_name, brand, price, image, supplier, quantity, product_cost, category FROM (products JOIN inventory ON products.product_id=inventory.product_id) WHERE quantity = 0 ORDER BY product_name ASC"
+    cursor.execute(sql_out_of_stock)
+    out_of_stock = cursor.fetchall()
+    return template("out_of_stock", out_of_stock=out_of_stock)
+
 @route("/sales")
 def list_sales():
-    return template("sales")
+    sql_products = "SELECT product_id, product_name, brand FROM products"
+    cursor.execute(sql_products)
+    products = cursor.fetchall()
+    return template("sales", products=products)
 
 @route("/suppliers")
 def list_supplier():
@@ -71,5 +81,5 @@ def list_supplier():
     supplier = cursor.fetchall()
     return template("suppliers", supplier=supplier)
     
-run(host="127.0.0.1", port=8110)
+run(host="127.0.0.1", port=8111)
 

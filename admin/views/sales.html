@@ -2,6 +2,7 @@
 <html lang="sv">
     <head>
         <meta charset="utf-8">
+         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="../static/style.css">
         <title>Kundlista</title>
 
@@ -10,7 +11,7 @@
         <div id="wrapper">
             <header>
                 <h1>
-                    <a href="/">Mörtfors vitvaror</a>
+                    <a href="/">Mörtfors vitvaror (admin)</a>
                 </h1>
             </header>
             <nav>
@@ -21,6 +22,52 @@
                     <li><a href="/suppliers">Återförsäljare</a></li>
                 </ul>
             </nav>
+            
+            <div class="sales">
+                <h3>Registrera köp</h3>
+                
+                    <table>
+                        <form method="post" action="/add_purchase">
+                            <tr>
+                                <td>
+                                    <i class="material-icons">perm_identity</i> 
+                                </td>
+                                <td>
+                                    <input type="text" id="customer_id" name="customer_id" placeholder="Personnummer" required><br>
+                                    <input name="staff_id" id="staff_id" type="text" placeholder="Personal id" required>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><i class="material-icons">today</i></td>
+                                <td><input name="date" id="date" type="date" placeholder="date" required></td>
+                            </tr>
+                            <tr>
+                                <td><i class="material-icons">location_on</i></td>
+                                <td>
+                                    <input type="text" id="discount" name="discount" placeholder="Rabatt" required> kr
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <select multiple>
+                                        % for row in products:
+                                        <option value="{{ (row[1])}} {{ (row[2]) }}">{{ (row[1])}} {{ (row[2]) }}</option>
+                                        % end
+                                    </select>
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <td></td>
+                                <td><button type="submit">Registrera</button></td>
+                            </tr>
+                        </form>
+                    </table>
+                
+                
+                
+            </div>
             
             
             <div class="row">
