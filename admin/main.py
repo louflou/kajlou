@@ -42,10 +42,6 @@ def list_customers():
 
 @route("/add_customer", method="POST")
 def add_customer():
-    sql_get_customers = "SELECT pno, customer_name, email, address, postno, region FROM customers"
-    cursor.execute(sql_get_customers)
-    get_customers = cursor.fetchall()
-    print('hej1')
     pno = str(request.forms.get("pno"))
     customer_name = str(request.forms.get("customer_name"))
     email = str(request.forms.get("email"))
@@ -53,9 +49,7 @@ def add_customer():
     postno = str(request.forms.get("postno"))
     region = str(request.forms.get("region"))
     total_sales = '0'
-    print(pno)
     cursor.execute("INSERT INTO customers (pno, customer_name, email, address, postno, region, total_sales) values(%s, %s, %s, %s, %s, %s, %s)", (pno, customer_name, email, address, postno, region, total_sales))
-    print('hej3')
     conn.commit()
     redirect("/customers")
 
@@ -77,5 +71,5 @@ def list_supplier():
     supplier = cursor.fetchall()
     return template("suppliers", supplier=supplier)
     
-run(host="127.0.0.1", port=8109)
+run(host="127.0.0.1", port=8110)
 
