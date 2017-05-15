@@ -18,7 +18,6 @@ header h1 a:hover {
     background-color: white;
     overflow: hidden;
     padding:20px 40px;
-    min-height: 600px;
 }
 nav {
     width:100%;
@@ -51,66 +50,38 @@ nav a .active {
     letter-spacing: 1.5px;
 }
 section {
-    //opacity: 0.8;
-    transition: ease 1.5s;
-    padding: 10px;
+    transition: ease 1s;
+    padding: 30px;
     border:1px dashed #eee;
-    width: 22%;
+    width: 90%;
     float: left;
-    //box-shadow:0 0 5px #ddd;
     margin: 1%;
     box-sizing: border-box;
-    //height:600px;
 }
 section:hover {
     //opacity: 1.0;
+    
+}
+section img {
+    display: inline;
+    width:35%;
+    float: left;
+    //margin-left:10%;
 }
 section article {
-    width:100%;
+    width:60%;
     float: left;
     border:10px solid white;
     overflow: scroll;
-    height:300px;
+    height:250px;
     box-sizing: border-box;
-}
-th, td {
-    padding:15px;
-    text-align: left;
-}
-td a{
-    color:#777;
-    text-decoration: none;
-}
-td a:hover {
-    color: #222;
-    //transition:ease 1s;
-}
-.active {
-    color:#222;
 }
 .row {
     width:100%;
     display:block;
     border-top:1px dashed #eee;
     overflow: hidden;
-    display: block;
 }
-.row ul {
-    list-style: none;
-    //padding: 0;
-}
-.row ul li {
-    display: inline;
-    padding: 10px;
-}
-.row a {
-    color: gainsboro;
-    text-decoration: none;
-}
-.row a:hover {
-    color: cadetblue;
-}
-
 .hej {
     float:right;
     width:10%;
@@ -129,7 +100,7 @@ td a:hover {
     color:darkcyan;
 }
 i {
-    font-weight: 100;
+    color: #ccc;
 }
 
 

@@ -1,7 +1,7 @@
 # coding=utf-8
 import psycopg2
 import bottle 
-from bottle import route, run, template, os, static_file, debug
+from bottle import route, run, template, os, static_file, debug, request, redirect
 
 #Konnectar till databsen
 conn = psycopg2.connect(dbname="ag8789", user="ag8789", password="cl934pos", host="pgserver.mah.se")
@@ -40,9 +40,31 @@ def list_customers():
     customers = cursor.fetchall()
     return template("customers", customers=customers)
 
+@route("/add_customer", method="POST")
+def add_customer():
+    sql_get_customers = "SELECT pno, customer_name, email, address, postno, region FROM customers"
+    cursor.execute(sql_get_customers)
+    get_customers = cursor.fetchall()
+    print('hej1')
+    pno = str(request.forms.get("pno"))
+    customer_name = str(request.forms.get("customer_name"))
+    email = str(request.forms.get("email"))
+    address = str(request.forms.get("address"))
+    postno = str(request.forms.get("postno"))
+    region = str(request.forms.get("region"))
+    total_sales = '0'
+    print(pno)
+    cursor.execute("INSERT INTO customers (pno, customer_name, email, address, postno, region, total_sales) values(%s, %s, %s, %s, %s, %s, %s)", (pno, customer_name, email, address, postno, region, total_sales))
+    print('hej3')
+    conn.commit()
+    redirect("/customers")
+
 @route("/inventory")
-def list_products():
-    return template("inventory")
+def list_stock():
+    sql_get_stock = "SELECT product_name, brand, price, image, supplier, quantity, product_cost, category FROM (products JOIN inventory ON products.product_id=inventory.product_id)"
+    cursor.execute(sql_get_stock);
+    stock = cursor.fetchall()
+    return template("inventory", stock=stock)
 
 @route("/sales")
 def list_sales():
@@ -55,5 +77,5 @@ def list_supplier():
     supplier = cursor.fetchall()
     return template("suppliers", supplier=supplier)
     
-run(host="127.0.0.1", port=8108)
+run(host="127.0.0.1", port=8109)
 

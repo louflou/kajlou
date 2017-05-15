@@ -2,8 +2,8 @@
 <html lang="sv">
     <head>
         <meta charset="utf-8">
-        <link rel="stylesheet" type="text/css" href="../static/style.css">
-        <title>Kundlista</title>
+        <link rel="stylesheet" type="text/css" href="../static/style_inventory.css">
+        <title>Lager</title>
 
     </head>
     <body>
@@ -13,28 +13,32 @@
                     <a href="/">Mörtfors vitvaror</a>
                 </h1>
             </header>
-            <nav>
-                <ul>
-                    <li><a href="/customers">Kundlista</a></li>
-                    <li><a class="active" href="/inventory">Lager</a></li>
-                    <li><a href="/sales">Kvitton</a></li>
-                    <li><a href="/suppliers">Återförsäljare</a></li>
-                </ul>
-            </nav>
-            
             
             <div class="row">
-                <ul>
-                    <li><a href="/inventory/add">Lägg till vara</a></li>
-                    <li><a href="/"></a></li>
-                </ul>
-                
+                <div class="hej">
+                    <form action="/search" method="post">
+                        <input type="text">
+                        <button type="submit">sök</button>
+                    </form>
+                </div> 
             </div>
             
-            
-           
-            
-            
+            <h3 class="gles">Produkter:</h3>
+            <div>
+              % for row in stock:
+            <section>
+              <img src="{{ (row[3]) }}">
+                <article>
+                  <h3>{{ (row[0]) }}</h3>
+                  <p><i>Märke: {{ (row[1]) }} Återförsäljare: {{ (row[4]) }}</i></p>
+                  <h4 class="gles">{{ (row[6]) }}:-</h4>                    
+                  <p>Säljpris: {{ (row[2]) }}</p>
+                  <h2>Lagerstatus: {{ (row[5]) }}</h2>
+                  
+                </article>
+            </section>
+              % end
+            </div>
         </div>
     </body>
 </html>
