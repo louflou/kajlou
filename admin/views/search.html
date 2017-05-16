@@ -20,7 +20,6 @@
                     <li><a href="/inventory">Lager</a></li>
                     <li><a href="/sales">Kvitton</a></li>
                     <li><a href="/suppliers">Återförsäljare</a></li>
-                    <li><a href="/staff">Personal</a></li>
                 </ul>
             </nav>
 
@@ -38,18 +37,11 @@
                     </li>
                 </ul>
             </div>
-<<<<<<< Updated upstream
-            
-            <section class="staff">
-                <p>Lägg till kund</p>
-                <article>
-=======
 
             <section>
                 <article>
 
 
->>>>>>> Stashed changes
                     <table>
                         <form method="post" action="/add_customer">
                             <tr>
@@ -84,12 +76,12 @@
 
 
              % for row in customers:
-            <section class="staff">
+            <section>
                 <article>
                     <table>
                         <tr>
-                            <td><i class="material-icons">perm_identity</i></td>
-                            <td>{{ (row[1]) }} <br>{{ (row[0]) }}</td>
+                            <th><i class="material-icons">perm_identity</i></th>
+                            <th>{{ (row[1]) }} <br>{{ (row[0]) }}</th>
                         </tr>
                         <tr>
                             <td><i class="material-icons">email</i></td>
