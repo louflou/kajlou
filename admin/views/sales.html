@@ -20,6 +20,7 @@
                     <li><a href="/inventory">Lager</a></li>
                     <li><a class="active" href="/sales">Kvitton</a></li>
                     <li><a href="/suppliers">Återförsäljare</a></li>
+                    <li><a href="/staff">Personal</a></li>
                 </ul>
             </nav>
             
@@ -50,11 +51,7 @@
                             <tr>
                                 <td></td>
                                 <td>
-                                    <select multiple>
-                                        % for row in products:
-                                        <option value="{{ (row[1])}} {{ (row[2]) }}">{{ (row[1])}} {{ (row[2]) }}</option>
-                                        % end
-                                    </select>
+                                    
                                 </td>
                             </tr>
                             

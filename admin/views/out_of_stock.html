@@ -22,6 +22,7 @@
                     <li><a class="active" href="/inventory">Lager</a></li>
                     <li><a href="/sales">Kvitton</a></li>
                     <li><a href="/suppliers">Återförsäljare</a></li>
+                    <li><a href="/staff">Personal</a></li>
                 </ul>
             </nav>
             
@@ -42,7 +43,6 @@
             
              % for row in out_of_stock:
             <section class="stock">
-                
                 <img src="{{ (row[3]) }}">
                 <article>
                     <table id="inventory-table">

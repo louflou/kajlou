@@ -41,7 +41,7 @@ nav a {
 nav a:hover {
     color: cadetblue;
 }
-nav a .active {
+.active {
     text-decoration: underline;
 }
 .center {
@@ -58,9 +58,26 @@ section {
     float: left;
     margin: 1%;
     box-sizing: border-box;
+    overflow: hidden;
+}
+.stock {
+    height: 480px; 
+}
+.staff {
+    height: 300px;
 }
 .stock img {
     height: 100px;
+}
+.pid {
+    text-align: center;
+    margin:10px;
+    float:right;
+    padding:10px;
+    width: 22px;
+    border-radius: 30px;
+    //background-color:azure;
+    border:1px dashed #ddd;
 }
 
 #inventory-section {
@@ -68,10 +85,11 @@ section {
 }
 section article {
     width:100%;
+    margin-top: 20px;
     float: left;
-    border:10px solid white;
-    overflow: scroll;
-    height:300px;
+    border:5px solid white;
+    overflow:scroll;
+    //height:300px;
     box-sizing: border-box;
 }
 th, td {

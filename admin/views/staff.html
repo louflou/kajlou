@@ -16,11 +16,11 @@
             </header>
             <nav>
                 <ul>
-                    <li><a class="active" href="/customers">Kundlista</a></li>
+                    <li><a href="/customers">Kundlista</a></li>
                     <li><a href="/inventory">Lager</a></li>
                     <li><a href="/sales">Kvitton</a></li>
                     <li><a href="/suppliers">Återförsäljare</a></li>
-                    <li><a href="/staff">Personal</a></li>
+                    <li><a class="active" href="/staff">Personal</a></li>
                 </ul>
             </nav>
             
@@ -34,9 +34,10 @@
                 </ul>
             </div>
             
-            <section class="staff">
-                <p>Lägg till kund</p>
+            <section>
                 <article>
+                    
+                    
                     <table>
                         <form method="post" action="/add_customer">
                             <tr>
@@ -70,26 +71,24 @@
             </section>
             
             
-             % for row in customers:
+             % for row in staff:
             <section class="staff">
+                <p alt="personalnummer" class="pid">{{ (row[0]) }}</p>
                 <article>
                     <table>
                         <tr>
                             <td><i class="material-icons">perm_identity</i></td>
-                            <td>{{ (row[1]) }} <br>{{ (row[0]) }}</td>
+                            <td>{{ (row[2]) }} <br>{{ (row[1]) }}</td>
                         </tr>
                         <tr>
                             <td><i class="material-icons">email</i></td>
-                            <td>{{ (row[2]) }}</td>
+                            <td>{{ (row[4]) }}</td>
                         </tr>
                         <tr>
-                            <td><i class="material-icons">location_on</i></td>
-                            <td>{{ (row[3]) }} <br>{{ (row[4]) }} <br>{{ (row[5]) }}</td>
+                            <td><i class="material-icons">phone</i></td>
+                            <td>{{ (row[3]) }}</td>
                         </tr>
-                        <tr>
-                            <td><i class="material-icons">shopping_cart</i></td>
-                            <td>{{ (row[6]) }}kr</td>
-                        </tr>
+                        
                     </table>
                 </article>
             </section>
