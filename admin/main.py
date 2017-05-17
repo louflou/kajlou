@@ -42,7 +42,9 @@ def list_customers():
 
 @route("/customers/search")
 def list_customers():
-    sql_customers = "SELECT region FROM customers WHERE region = LIKE %s""", ('%' + query + '%')"
+    print('test')
+    user_input = str(request.forms.get("search")) 
+    sql_customers = "SELECT * FROM customers WHERE region = '% user_input %'"
     cursor.execute(sql_customers)
     customers = cursor.fetchall()
     return template("search", customers=customers)
