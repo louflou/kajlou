@@ -40,10 +40,9 @@ def list_customers():
     customers = cursor.fetchall()
     return template("customers", customers=customers)
 
-@route("/customers/search")
+@route("/search", method="POST")
 def list_customers():
-    print('test')
-    user_input = str(request.forms.get("search")) 
+    user_input = request.forms.get("search")
     sql_customers = "SELECT * FROM customers WHERE region = '% user_input %'"
     cursor.execute(sql_customers)
     customers = cursor.fetchall()
