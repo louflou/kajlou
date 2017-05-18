@@ -40,14 +40,6 @@ def list_customers():
     customers = cursor.fetchall()
     return template("customers", customers=customers)
 
-@route("/search", method="POST")
-def list_customers():
-    user_input = request.forms.get("search")
-    sql_customers = "SELECT * FROM customers WHERE region = '% user_input %'"
-    cursor.execute(sql_customers)
-    customers = cursor.fetchall()
-    return template("search", customers=customers)
-
 @route("/add_customer", method="POST")
 def add_customer():
     pno = str(request.forms.get("pno"))
