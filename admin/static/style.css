@@ -64,7 +64,7 @@ section {
     height: 480px; 
 }
 .staff {
-    height: 300px;
+    height: 350px !important;
 }
 .stock img {
     height: 100px;
@@ -78,6 +78,9 @@ section {
     border-radius: 30px;
     //background-color:azure;
     border:1px dashed #ddd;
+}
+.rubbe {
+    margin-bottom: -10px;
 }
 
 #inventory-section {

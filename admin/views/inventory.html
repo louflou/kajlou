@@ -40,6 +40,56 @@
                 </div> 
             </div>
             
+            <section class="stock">
+                <article>
+                    <table>
+                        Lägg till vara:
+                        <form method="post" action="/add_product">
+                            <tr>
+                                <td>
+                                    <i class="material-icons">loyalty</i>
+                                </td>
+                                <td>
+                                    <input type="text" id="product_name" name="product_name" placeholder="Produktnamn" required><br>
+                                    <input name="brand" id="brand" type="text" placeholder="Märke" required> <br>
+                                    <input name="category" id="category" type="text" placeholder="Kategori" required><br>
+                                    <input type="number" id="price" name="price" placeholder="Pris" required> 
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><i class="material-icons">perm_media</i></td>
+                                <td><input name="product_image" id="product_image" type="text" placeholder="Bild URL" required></td>
+                            </tr>
+                            <tr>
+                                <td><i class="material-icons">description</i></td>
+                                <td><textarea id="description" name="description" placeholder="Beskrivning"></textarea></td>
+                            </tr>
+                            <tr>
+                                
+                                <td><i class="material-icons">store</i></td>
+                                
+                                <td>
+                                    <input type="text" id="supplier_select" name="supplier_select" placeholder="Återförsäljare" required><br>
+                                    <input type="number" id="cost" name="cost" placeholder="Kostnad" required>
+                                    
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><i class="material-icons">receipt</i></td>
+                                <td><input type="number" id="quantity" name="quantity" placeholder="Antal"></td>
+                            </tr>
+                            
+                            <tr>
+                                <td></td>
+                                <td><button type="submit">Registrera</button></td>
+                            </tr>
+                        </form>
+                    </table>
+                </article>
+            </section>
+            
+            
+            
              % for row in stock:
             <section class="stock">
                 

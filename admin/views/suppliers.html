@@ -32,6 +32,36 @@
                 </ul>
             </div>
             
+            <section class="stock">
+                <article>
+                    <table>
+                        Lägg till Återförsäljare:
+                        <form method="post" action="/add_supplier">    
+                            <tr>
+                                <td><i class="material-icons">store</i></td>
+                                <td>
+                                    <input type="text" id="supplier_name" name="supplier_name" placeholder="Återförsäljare" required> 
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><i class="material-icons">phone</i></td>
+                                <td><input name="supplier_phone" id="supplier_phone" type="text" placeholder="Telefonnummer" required></td>
+                            </tr>
+                            <tr>
+                                <td><i class="material-icons">web</i></td>
+                                <td><input type="text" id="website" name="website" placeholder="Hemsida URL"></td>
+                            </tr>
+                            
+                            <tr>
+                                <td></td>
+                                <td><button type="submit">Registrera</button></td>
+                            </tr>
+                        </form>
+                    </table>
+                </article>
+            </section>
+            
+            
              % for row in supplier:
             <section class="staff">
                 <article>
