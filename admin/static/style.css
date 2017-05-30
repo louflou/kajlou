@@ -161,3 +161,38 @@ i {
 
 
 
+div.tooltip {
+    position: relative;
+    /*  DO NOT include below two lines, as they were added so that the text that
+        is hovered over is offset from top of page*/
+    top: 10em;
+    left: 10em;
+    /* if want hover over icon instead of text based, uncomment below */
+        /*    background-image: url("../images/info_tooltip.svg");
+            /!* width and height of svg *!/
+            width: 16px;
+            height: 16px;*/
+ }
+
+/* hide tooltip */
+.tooltip span {
+    display: none;
+}
+
+/* show and style tooltip */
+.tooltip:hover span {
+    /* show tooltip */
+    display: block;
+    /* position relative to container div.tooltip */
+    position: absolute;
+    bottom: 1em;
+    /* prettify */
+    padding: 0.5em;
+    color: #000000;
+    background: #ebf4fb;
+    border: 0.1em solid #b7ddf2;
+    /* round the corners */
+    border-radius: 0.5em;
+    /* prevent too wide tooltip */
+    max-width: 10em;
+}

@@ -4,7 +4,7 @@ import bottle
 from bottle import route, run, template, os, static_file, debug
 
 #Konnectar till databsen
-conn = psycopg2.connect(dbname="ag8789", user="ag8789", password="cl934pos", host="pgserver.mah.se")
+conn = psycopg2.connect(dbname="kajlou", user="ag8789", password="cl934pos", host="pgserver.mah.se")
 
 #Pekaren på databasen
 cursor = conn.cursor()
