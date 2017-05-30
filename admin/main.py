@@ -3,7 +3,7 @@ import psycopg2
 import bottle 
 from bottle import route, run, template, os, static_file, debug, request, redirect
 
-#Konnectar till databsen
+#Connectar till databsen
 conn = psycopg2.connect(dbname="kajlou", user="ag8789", password="cl934pos", host="pgserver.mah.se")
 
 #Pekaren på databasen
@@ -40,12 +40,6 @@ def list_customers():
     customers = cursor.fetchall()
     return template("customers", customers=customers)
 
-@route("/customers/search")
-def list_customers():
-    sql_customers = "SELECT * FROM customers WHERE region LIKE %s"
-    cursor.execute(sql_customers)
-    customers = cursor.fetchall()
-    return template("search", customers=customers)
 
 @route("/add_customer", method="POST")
 def add_customer():
