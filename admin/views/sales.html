@@ -24,51 +24,90 @@
                 </ul>
             </nav>
             
-            <div class="sales">
+            <section class="sales">
                 <h3>Registrera köp</h3>
                 
                     <table>
-                        <form method="post" action="/add_purchase">
+                        <form method="post" action="/begin_sales">
                             <tr>
+                                Hejsan välkommen att börja ditt köp:
                                 <td>
                                     <i class="material-icons">perm_identity</i> 
                                 </td>
                                 <td>
-                                    <input type="text" id="customer_id" name="customer_id" placeholder="Personnummer" required><br>
+                                    <input type="text" id="customer_id" name="customer_id" placeholder="Kundnummer" required><br>
                                     <input name="staff_id" id="staff_id" type="text" placeholder="Personal id" required>
                                 </td>
                             </tr>
                             <tr>
-                                <td><i class="material-icons">today</i></td>
-                                <td><input name="date" id="date" type="date" placeholder="date" required></td>
+                                <td></td>
+                                <td><button type="submit">Påbörja köp</button></td>
                             </tr>
+                        </form>
+                        
+                        <form method="POST" action="add_product_to_sales">
                             <tr>
-                                <td><i class="material-icons">location_on</i></td>
+                                <td><i class="material-icons">loyalty</i></td>
                                 <td>
-                                    <input type="text" id="discount" name="discount" placeholder="Rabatt" required> kr
+                                    <input type="text" id="product_id" name="product_id" placeholder="Produkt id" required><br>
+                                    <input type="number" id="quantity" name="quantity" placeholder="Antal">
                                 </td>
                             </tr>
                             <tr>
                                 <td></td>
+                                <td><button type="submit">Lägg till vara i köp</button></td>
+                            </tr>
+                        </form>
+
+                            <tr>
+                                <td></td>
                                 <td>
-                                    
                                 </td>
                             </tr>
                             
                             <tr>
                                 <td></td>
-                                <td><button type="submit">Registrera</button></td>
+                                <td></td>
                             </tr>
-                        </form>
+                        
                     </table>
                 
-                
-                
-            </div>
+            </section>
             
             
-            <div class="row">
-            </div>
+             % for row in get_sales:
+            <section class="stock">
+                <article>
+                    <table id="inventory-table">
+                            
+                        <h3>{{ (row[5]) }}</h3>
+                                       
+                        <tr>
+                            <td>Sales id: </td>
+                            <td>{{ (row[0]) }}</td>
+                        </tr>
+                        <tr>
+                            <td>Customer ID: </td>
+                            <td>{{ (row[3]) }}</td>
+                        </tr>
+                        <tr>
+                            <td>Staff ID: </td>
+                            <td>{{ (row[4]) }}</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>Produktid: </td>
+                            <td>{{ (row[1]) }}</td>
+                        </tr>
+                        <tr>
+                            <td>Quantity: </td>
+                            <td>{{ (row[2]) }} </td>
+                        </tr>
+                    </table>
+                </article>
+            </section>
+              % end
+            
             
            
             

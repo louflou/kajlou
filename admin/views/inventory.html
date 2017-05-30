@@ -43,7 +43,7 @@
             <section class="stock">
                 <article>
                     <table>
-                        Lägg till vara:
+                        Lägg till ny vara:
                         <form method="post" action="/add_product">
                             <tr>
                                 <td>
@@ -69,7 +69,7 @@
                                 <td><i class="material-icons">store</i></td>
                                 
                                 <td>
-                                    <input type="text" id="supplier_select" name="supplier_select" placeholder="Återförsäljare" required><br>
+                                    <input type="text" id="supplier" name="supplier" placeholder="Återförsäljare" required><br>
                                     <input type="number" id="cost" name="cost" placeholder="Kostnad" required>
                                     
                                 </td>
@@ -82,6 +82,40 @@
                             <tr>
                                 <td></td>
                                 <td><button type="submit">Registrera</button></td>
+                            </tr>
+                        </form>
+                    </table>
+                </article>
+            </section>
+            
+            <section class="stock">
+                <article>
+                    <table>
+                        Uppdatera lagerstatus på befintlig vara:
+                        <form method="post" action="/update_product">
+                            <tr>
+                                <td>
+                                    <i class="material-icons">loyalty</i>
+                                </td>
+                                <td>
+                                    <input type="text" id="x_product_id" name="x_product_id" placeholder="Produkt id" required><br>
+                                </td>
+                            </tr>
+                            <tr>
+                                
+                                <td><i class="material-icons">store</i></td>
+                                <td>
+                                    <input type="text" id="x_supplier" name="x_supplier" placeholder="Återförsäljare" required>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><i class="material-icons">receipt</i></td>
+                                <td><input type="number" id="x_quantity" name="x_quantity" placeholder="Antal att lägga till"></td>
+                            </tr>
+                            
+                            <tr>
+                                <td></td>
+                                <td><button type="submit">Uppdatera</button></td>
                             </tr>
                         </form>
                     </table>
@@ -102,10 +136,7 @@
                         
                         <tr>
                             <td>
-                                <div class="tooltip">
-                                    <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec quis purus dui. Sed at orci. </span>
-                                    <i class="material-icons">store</i>
-                                </div>
+                                <i class="material-icons">store</i>
                             </td>
                             <td>{{ (row[4]) }}</td>
                         </tr>
@@ -121,6 +152,7 @@
                             <td><i class="material-icons">receipt</i></td>
                             <td>{{ (row[5]) }} st på lager</td>
                         </tr>
+                        
                     </table>
                 </article>
             </section>

@@ -157,8 +157,9 @@ td a:hover {
 i {
     font-weight: 100;
 }
-
-
+.capitalize {
+    font: capitalize;
+}
 
 
 div.tooltip {
@@ -195,4 +196,5 @@ div.tooltip {
     border-radius: 0.5em;
     /* prevent too wide tooltip */
     max-width: 10em;
+    transition: 1s ease;    
 }

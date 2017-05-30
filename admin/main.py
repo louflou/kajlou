@@ -76,14 +76,14 @@ def add_product():
     conn.commit()
     sql_get_product_id = "SELECT last_value FROM products_product_id_seq"
     cursor.execute(sql_get_product_id)
-    product_id = cursor.fetchone()
+    product_id_tup = cursor.fetchone()
+    product_id = product_id_tup[0]
     supplier = str(request.forms.get("supplier"))
     product_cost = str(request.forms.get("cost"))
     quantity = str(request.forms.get("quantity"))
     cursor.execute("INSERT INTO inventory (product_id, supplier, product_cost, quantity) values(%s, %s, %s, %s)", (product_id, supplier, product_cost, quantity))
     conn.commit()
-    redirect("/suppliers")
-
+    redirect("/inventory")
 
 @route("/staff")
 def list_staff():
@@ -91,7 +91,6 @@ def list_staff():
     cursor.execute(sql_staff)
     staff = cursor.fetchall()
     return template("staff", staff=staff)
-
 
 @route("/inventory")
 def list_stock():
@@ -103,6 +102,18 @@ def list_stock():
     stock = cursor.fetchall()
     return template("inventory", stock=stock, suppliers=suppliers)
 
+@route("/update_product", method="POST")
+def update_existing():
+    product_id = str(request.forms.get("x_product_id"))
+    supplier = str(request.forms.get("x_supplier"))
+    quantity = int(request.forms.get("x_quantity"))
+    cursor.execute("SELECT quantity FROM inventory WHERE product_id = %s AND supplier = %s", (product_id, supplier))
+    current_quantity_tup = cursor.fetchone()
+    current_quantity = int(current_quantity_tup[0])
+    cursor.execute("UPDATE inventory SET quantity = %s WHERE product_id = %s AND supplier = %s", (quantity+current_quantity, product_id, supplier))
+    conn.commit()
+    redirect("/inventory")
+    
 
 @route("/out_of_stock")
 def list_out_of_stock():
@@ -111,12 +122,34 @@ def list_out_of_stock():
     out_of_stock = cursor.fetchall()
     return template("out_of_stock", out_of_stock=out_of_stock)
 
-@route("/sales")
+@route("/sales")    
 def list_sales():
-    sql_products = "SELECT product_id, product_name, brand FROM products"
-    cursor.execute(sql_products)
-    products = cursor.fetchall()
-    return template("sales", products=products)
+    sql_get_sales = "SELECT sales_details.sales_id, product_id, quantity, customer_id, staff_id, date FROM (sales JOIN sales_details ON sales.sales_id=sales_details.sales_id)"
+    cursor.execute(sql_get_sales)
+    get_sales = cursor.fetchall()
+    return template("sales", get_sales=get_sales)
+
+@route("/begin_sales", method="POST")
+def reg_sales():
+    customer = str(request.forms.get("customer_id"))
+    vendor = str(request.forms.get("staff_id"))
+    cursor.execute("INSERT INTO sales_details(customer_id, staff_id) values(%s, %s)", (customer, vendor))
+    conn.commit()
+    redirect("/sales")
+
+
+@route("/add_product_to_sales", method="POST")
+def add_to_sales():
+    sql_get_sales_id = "SELECT last_value FROM sales_details_sales_id_seq"
+    cursor.execute(sql_get_sales_id)
+    sales_id_tup = cursor.fetchone()
+    sales_id = int(sales_id_tup[0])
+    product_id = str(request.forms.get("product_id"))
+    quantity = str(request.forms.get("quantity"))
+    cursor.execute("INSERT INTO sales (sales_id, product_id, quantity) values(‰s, ‰s, ‰s)", (sales_id, product_id, quantity))
+    conn.commit()
+    redirect("/sales")
+    
 
 @route("/suppliers")
 def list_supplier():
