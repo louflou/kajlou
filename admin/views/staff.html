@@ -23,26 +23,16 @@
                     <li><a class="active" href="/staff">Personal</a></li>
                 </ul>
             </nav>
-            
-            
-            <div class="row">
-                <ul>
-                    <li><a href="/customers/name">Namn</a></li>
-                    <li><a href="/customers/region">Region</a></li>
-                    <li><a href="/customers">Värde</a></li>
-                    <li><a href="/customers/search)">Sök</a></li>
-                </ul>
-            </div>
-            
+
             <section>
                 <article>
-                    
-                    
+
+
                     <table>
                         <form method="post" action="/add_customer">
                             <tr>
                                 <td>
-                                    <i class="material-icons">perm_identity</i> 
+                                    <i class="material-icons">perm_identity</i>
                                 </td>
                                 <td>
                                     <input type="text" id="customer_name" name="customer_name" placeholder="För- och efternamn" required><br>
@@ -69,8 +59,8 @@
                     </table>
                 </article>
             </section>
-            
-            
+
+
              % for row in staff:
             <section class="staff">
                 <p alt="personalnummer" class="pid">{{ (row[0]) }}</p>
@@ -88,15 +78,15 @@
                             <td><i class="material-icons">phone</i></td>
                             <td>{{ (row[3]) }}</td>
                         </tr>
-                        
+
                     </table>
                 </article>
             </section>
               % end
-            
-           
-            
-            
+
+
+
+
         </div>
     </body>
 </html>

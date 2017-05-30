@@ -23,24 +23,17 @@
                     <li><a href="/staff">Personal</a></li>
                 </ul>
             </nav>
-            
-            
-            <div class="row">
-                <ul>
-                    <li><a href="/supplier/name">Kontakt</a></li>
-                    <li><a href="/supplier/add">Lägg till</a></li>
-                </ul>
-            </div>
-            
+
+
             <section class="stock">
                 <article>
                     <table>
                         Lägg till Återförsäljare:
-                        <form method="post" action="/add_supplier">    
+                        <form method="post" action="/add_supplier">
                             <tr>
                                 <td><i class="material-icons">store</i></td>
                                 <td>
-                                    <input type="text" id="supplier_name" name="supplier_name" placeholder="Återförsäljare" required> 
+                                    <input type="text" id="supplier_name" name="supplier_name" placeholder="Återförsäljare" required>
                                 </td>
                             </tr>
                             <tr>
@@ -51,7 +44,7 @@
                                 <td><i class="material-icons">web</i></td>
                                 <td><input type="text" id="website" name="website" placeholder="Hemsida URL"></td>
                             </tr>
-                            
+
                             <tr>
                                 <td></td>
                                 <td><button type="submit">Registrera</button></td>
@@ -60,8 +53,8 @@
                     </table>
                 </article>
             </section>
-            
-            
+
+
              % for row in supplier:
             <section class="staff">
                 <article>
@@ -82,9 +75,9 @@
                 </article>
             </section>
               % end
-           
-            
-            
+
+
+
         </div>
     </body>
 </html>

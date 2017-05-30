@@ -98,6 +98,7 @@ def list_staff():
     staff = cursor.fetchall()
     return template("staff", staff=staff)
 
+
 @route("/inventory")
 def list_stock():
     sql_get_supplier = "SELECT supplier_name FROM supplier"
