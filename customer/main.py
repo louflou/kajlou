@@ -1,6 +1,6 @@
 # coding=utf-8
-import psycopg2
-import bottle 
+import psycopg2 #Används för att skapa en koppling till databasen
+import bottle #Ramverk för att underlätta skapandet av en hemsida
 from bottle import route, run, template, os, static_file, debug
 
 #Konnectar till databsen
@@ -14,7 +14,7 @@ cursor = conn.cursor()
 def send_static(filename):
     return static_file(filename, root="./static/")
 
-#Visar
+#Startsidan som läser in alla produkter som finns till salu i lagret
 @route("/")
 def start():
     sql_products = "SELECT product_name, description, brand, price, image, category FROM products"
@@ -31,6 +31,7 @@ def start():
     
     return template("index", products=products, category=category, brand=brand)
 
+#Sorterar varorna i lagret efter kategorin som användaren väljer
 @route("/category/<category>")
 def sort_category(category):
     sql_sort_category = "SELECT product_name, description, brand, price, image, category FROM products WHERE category= %s ORDER BY product_name ASC"
@@ -47,6 +48,7 @@ def sort_category(category):
 
     return template("category", products=products, category=category, brand=brand)
 
+#Sorterar varorna efter märket som användaren väljer
 @route("/brand/<brand>")
 def sort_brand(brand):
     sql_sort_brand = "SELECT product_name, description, brand, price, image FROM products WHERE brand = %s ORDER BY product_name ASC"
@@ -63,6 +65,7 @@ def sort_brand(brand):
 
     return template("brand", products=products, category=category, brand=brand)
 
+#Sorterar varorna efter pris - minst till störst
 @route("/min_pris")
 def sort_price():
     sql_sort_price = "SELECT product_name, description, brand, price, image FROM products ORDER BY price ASC"
@@ -78,6 +81,7 @@ def sort_price():
     brand = cursor.fetchall()
     return template("price", products=products, category=category, brand=brand)
 
+#Soreterar varorna efter pris - störst till minst
 @route("/max_pris")
 def sort_price():
     sql_sort_price = "SELECT product_name, description, brand, price, image FROM products ORDER BY price DESC"
@@ -93,6 +97,6 @@ def sort_price():
     brand = cursor.fetchall()
     return template("price", products=products, category=category, brand=brand)
 
-    
+#Kör systemet på följande address 
 run(host="127.0.0.1", port=8100)
 

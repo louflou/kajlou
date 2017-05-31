@@ -1,6 +1,6 @@
 # coding=utf-8
-import psycopg2
-import bottle 
+import psycopg2 #Används för att kopla till databasen
+import bottle #Ramverk som används för att underlätta skapandet av en websida
 from bottle import route, run, template, os, static_file, debug, request, redirect
 
 #Connectar till databsen
@@ -15,10 +15,12 @@ def send_static(filename):
     return static_file(filename, root="./static/")
 
 
+#Visar startsidan (Tom - endast menyer för val via HTML)
 @route("/")
 def start():
     return template("index")
 
+#Visar alla kunder som är registrerade i databsen
 @route("/customers")
 def list_customers():
     sql_customers = "SELECT * FROM customers ORDER BY total_sales DESC"
@@ -26,6 +28,7 @@ def list_customers():
     customers = cursor.fetchall()
     return template("customers", customers=customers)
 
+#Sorterar kundernas namn i bokstavsorning
 @route("/customers/name")
 def list_customers():
     sql_customers = "SELECT * FROM customers ORDER BY customer_name ASC"
@@ -33,6 +36,7 @@ def list_customers():
     customers = cursor.fetchall()
     return template("customers", customers=customers)
 
+#Sorterar kundernas hemstad i bokstavsordning
 @route("/customers/region")
 def list_customers():
     sql_customers = "SELECT * FROM customers ORDER BY region ASC"
@@ -40,7 +44,7 @@ def list_customers():
     customers = cursor.fetchall()
     return template("customers", customers=customers)
 
-
+#Funktion som lägger till en kund i databasene med information hätmad från ett formulär i HTML
 @route("/add_customer", method="POST")
 def add_customer():
     pno = str(request.forms.get("pno"))
@@ -49,11 +53,12 @@ def add_customer():
     address = str(request.forms.get("address"))
     postno = str(request.forms.get("postno"))
     region = str(request.forms.get("region"))
-    total_sales = '0'
+    total_sales = '0' #TA BOOOOOOOOOOOOOOOOOOOOOOOOOOOOORT
     cursor.execute("INSERT INTO customers (pno, customer_name, email, address, postno, region, total_sales) values(%s, %s, %s, %s, %s, %s, %s)", (pno, customer_name, email, address, postno, region, total_sales))
     conn.commit()
-    redirect("/customers")
+    redirect("/customers") #Skickas sen till funktionen "customers" som läser in alla kunder på nytt så att användaren kan se att kunden blivit reigstrerad
 
+#Funktion som lägger till en återförsäljare i databsen med infomraiton hämtad från ett formulär i HTML
 @route("/add_supplier", method="POST")
 def add_customer():
     supplier_name = str(request.forms.get("supplier_name"))
@@ -61,9 +66,9 @@ def add_customer():
     website = str(request.forms.get("website"))
     cursor.execute("INSERT INTO supplier (supplier_name, phone, website) values(%s, %s, %s)", (supplier_name, phone, website))
     conn.commit()
-    redirect("/suppliers")
+    redirect("/suppliers") #Skickar tillbaka användaren till funktionen suppliers så att dem kan se att en återförsäljare blivit adderad i databsaen
 
-
+#Funktion som registrerar en produkt i datbasen utifrån infomration som hämtas ifrån ett HTML-formulär
 @route("/add_product", method="POST")
 def add_product():
     product_name = str(request.forms.get("product_name"))
@@ -83,8 +88,9 @@ def add_product():
     quantity = str(request.forms.get("quantity"))
     cursor.execute("INSERT INTO inventory (product_id, supplier, product_cost, quantity) values(%s, %s, %s, %s)", (product_id, supplier, product_cost, quantity))
     conn.commit()
-    redirect("/inventory")
+    redirect("/inventory") #Skickar tillbaka användaren till funktionen inventory som läser in alla varor på nytt så att användaren kan se att produkten blivit registrerad
 
+#Läser in all personal från databsen och ordnar dem efter staff_id
 @route("/staff")
 def list_staff():
     sql_staff = "SELECT * from staff ORDER BY staff_id ASC"
@@ -92,6 +98,7 @@ def list_staff():
     staff = cursor.fetchall()
     return template("staff", staff=staff)
 
+#Läser in alla varor som finns i lagret
 @route("/inventory")
 def list_stock():
     sql_get_supplier = "SELECT supplier_name FROM supplier"
@@ -102,6 +109,7 @@ def list_stock():
     stock = cursor.fetchall()
     return template("inventory", stock=stock, suppliers=suppliers)
 
+#Funktion som används om man köper in fler av en produkt och uppdaterar quantity för dem i databasen
 @route("/update_product", method="POST")
 def update_existing():
     product_id = str(request.forms.get("x_product_id"))
@@ -114,7 +122,7 @@ def update_existing():
     conn.commit()
     redirect("/inventory")
     
-
+#Läser in alla varor i lagret där quantity är mindre än 0 för att se vilka registrerade varor som inte finns på lager
 @route("/out_of_stock")
 def list_out_of_stock():
     sql_out_of_stock = "SELECT product_name, brand, price, image, supplier, quantity, product_cost, category FROM (products JOIN inventory ON products.product_id=inventory.product_id) WHERE quantity = 0 ORDER BY product_name ASC"
@@ -122,6 +130,7 @@ def list_out_of_stock():
     out_of_stock = cursor.fetchall()
     return template("out_of_stock", out_of_stock=out_of_stock)
 
+#Läser in alla kvitton med försäljningar som gjorts
 @route("/sales")    
 def list_sales():
     sql_get_sales = "SELECT sales_details.sales_id, product_id, quantity, customer_id, staff_id, date FROM (sales JOIN sales_details ON sales.sales_id=sales_details.sales_id)"
@@ -129,6 +138,7 @@ def list_sales():
     get_sales = cursor.fetchall()
     return template("sales", get_sales=get_sales)
 
+#Påbörjar en försäljning genom att registrerar en säljare och kund i tabellen sales_details
 @route("/begin_sales", method="POST")
 def reg_sales():
     customer = str(request.forms.get("customer_id"))
@@ -137,7 +147,7 @@ def reg_sales():
     conn.commit()
     redirect("/sales")
 
-
+#Lägger till varor för kvittot kopplat till sales_details
 @route("/add_product_to_sales", method="POST")
 def add_to_sales():
     sql_get_sales_id = "SELECT last_value FROM sales_details_sales_id_seq"
@@ -150,13 +160,14 @@ def add_to_sales():
     conn.commit()
     redirect("/sales")
     
-
+#Läser in alla återfärsäljare som är registrerade i databasen
 @route("/suppliers")
 def list_supplier():
     sql_supplier = "SELECT * FROM supplier ORDER BY supplier_name ASC"
     cursor.execute(sql_supplier)
     supplier = cursor.fetchall()
     return template("suppliers", supplier=supplier)
-    
+
+#Kör systemet på följande address
 run(host="127.0.0.1", port=8112)
 
