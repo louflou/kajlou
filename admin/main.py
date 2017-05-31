@@ -44,9 +44,7 @@ def list_customers():
     customers = cursor.fetchall()
     return template("customers", customers=customers)
 
-<<<<<<< Updated upstream
 #Funktion som lägger till en kund i databasene med information hätmad från ett formulär i HTML
-=======
 @route("/customers/search")
 def list_customers():
     sql_customers = "SELECT * FROM customers WHERE region LIKE %s"
@@ -54,7 +52,6 @@ def list_customers():
     customers = cursor.fetchall()
     return template("search", customers=customers)
 
->>>>>>> Stashed changes
 @route("/add_customer", method="POST")
 def add_customer():
     pno = str(request.forms.get("pno"))
@@ -63,13 +60,10 @@ def add_customer():
     address = str(request.forms.get("address"))
     postno = str(request.forms.get("postno"))
     region = str(request.forms.get("region"))
-<<<<<<< Updated upstream
     total_sales = '0' #TA BOOOOOOOOOOOOOOOOOOOOOOOOOOOOORT
     cursor.execute("INSERT INTO customers (pno, customer_name, email, address, postno, region, total_sales) values(%s, %s, %s, %s, %s, %s, %s)", (pno, customer_name, email, address, postno, region, total_sales))
-=======
     total_sales = '0'
     cursor.execute("INSERT INTO customers (pno, customer_name, email, address, postno, region, total_sales) VALUES(%s, %s, %s, %s, %s, %s, %s)", (pno, customer_name, email, address, postno, region, total_sales))
->>>>>>> Stashed changes
     conn.commit()
     redirect("/customers") #Skickas sen till funktionen "customers" som läser in alla kunder på nytt så att användaren kan se att kunden blivit reigstrerad
 
@@ -162,10 +156,7 @@ def reg_sales():
     conn.commit()
     redirect("/sales")
 
-<<<<<<< Updated upstream
 #Lägger till varor för kvittot kopplat till sales_details
-=======
->>>>>>> Stashed changes
 @route("/add_product_to_sales", method="POST")
 def add_to_sales():
     sql_get_sales_id = "SELECT last_value FROM sales_details_sales_id_seq"
@@ -177,12 +168,9 @@ def add_to_sales():
     cursor.execute("INSERT INTO sales(sales_id, product_id) VALUES(‰s, ‰s)", (sales_id, product_id))
     conn.commit()
     redirect("/sales")
-<<<<<<< Updated upstream
     
 #Läser in alla återfärsäljare som är registrerade i databasen
-=======
 
->>>>>>> Stashed changes
 @route("/suppliers")
 def list_supplier():
     sql_supplier = "SELECT * FROM supplier ORDER BY supplier_name ASC"
