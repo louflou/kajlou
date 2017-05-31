@@ -3,7 +3,7 @@ import psycopg2 #Används för att kopla till databasen
 import bottle #Ramverk som används för att underlätta skapandet av en websida
 from bottle import route, run, template, os, static_file, debug, request, redirect
 
-#Connectar till databsen
+#Konnectar till databsen
 conn = psycopg2.connect(dbname="kajlou", user="ag8789", password="cl934pos", host="pgserver.mah.se")
 
 #Pekaren på databasen
@@ -44,7 +44,17 @@ def list_customers():
     customers = cursor.fetchall()
     return template("customers", customers=customers)
 
+<<<<<<< Updated upstream
 #Funktion som lägger till en kund i databasene med information hätmad från ett formulär i HTML
+=======
+@route("/customers/search")
+def list_customers():
+    sql_customers = "SELECT * FROM customers WHERE region LIKE %s"
+    cursor.execute(sql_customers)
+    customers = cursor.fetchall()
+    return template("search", customers=customers)
+
+>>>>>>> Stashed changes
 @route("/add_customer", method="POST")
 def add_customer():
     pno = str(request.forms.get("pno"))
@@ -53,8 +63,13 @@ def add_customer():
     address = str(request.forms.get("address"))
     postno = str(request.forms.get("postno"))
     region = str(request.forms.get("region"))
+<<<<<<< Updated upstream
     total_sales = '0' #TA BOOOOOOOOOOOOOOOOOOOOOOOOOOOOORT
     cursor.execute("INSERT INTO customers (pno, customer_name, email, address, postno, region, total_sales) values(%s, %s, %s, %s, %s, %s, %s)", (pno, customer_name, email, address, postno, region, total_sales))
+=======
+    total_sales = '0'
+    cursor.execute("INSERT INTO customers (pno, customer_name, email, address, postno, region, total_sales) VALUES(%s, %s, %s, %s, %s, %s, %s)", (pno, customer_name, email, address, postno, region, total_sales))
+>>>>>>> Stashed changes
     conn.commit()
     redirect("/customers") #Skickas sen till funktionen "customers" som läser in alla kunder på nytt så att användaren kan se att kunden blivit reigstrerad
 
@@ -64,7 +79,7 @@ def add_customer():
     supplier_name = str(request.forms.get("supplier_name"))
     phone = str(request.forms.get("supplier_phone"))
     website = str(request.forms.get("website"))
-    cursor.execute("INSERT INTO supplier (supplier_name, phone, website) values(%s, %s, %s)", (supplier_name, phone, website))
+    cursor.execute("INSERT INTO supplier (supplier_name, phone, website) VALUES(%s, %s, %s)", (supplier_name, phone, website))
     conn.commit()
     redirect("/suppliers") #Skickar tillbaka användaren till funktionen suppliers så att dem kan se att en återförsäljare blivit adderad i databsaen
 
@@ -77,7 +92,7 @@ def add_product():
     image = str(request.forms.get("product_image"))
     brand = str(request.forms.get("brand"))
     price = str(request.forms.get("price"))
-    cursor.execute("INSERT INTO products (product_name, description, brand, price, category, image) values(%s, %s, %s, %s, %s, %s)", (product_name, description, brand, price, category, image))
+    cursor.execute("INSERT INTO products (product_name, description, brand, price, category, image) VALUES(%s, %s, %s, %s, %s, %s)", (product_name, description, brand, price, category, image))
     conn.commit()
     sql_get_product_id = "SELECT last_value FROM products_product_id_seq"
     cursor.execute(sql_get_product_id)
@@ -86,7 +101,7 @@ def add_product():
     supplier = str(request.forms.get("supplier"))
     product_cost = str(request.forms.get("cost"))
     quantity = str(request.forms.get("quantity"))
-    cursor.execute("INSERT INTO inventory (product_id, supplier, product_cost, quantity) values(%s, %s, %s, %s)", (product_id, supplier, product_cost, quantity))
+    cursor.execute("INSERT INTO inventory (product_id, supplier, product_cost, quantity) VALUES(%s, %s, %s, %s)", (product_id, supplier, product_cost, quantity))
     conn.commit()
     redirect("/inventory") #Skickar tillbaka användaren till funktionen inventory som läser in alla varor på nytt så att användaren kan se att produkten blivit registrerad
 
@@ -143,11 +158,14 @@ def list_sales():
 def reg_sales():
     customer = str(request.forms.get("customer_id"))
     vendor = str(request.forms.get("staff_id"))
-    cursor.execute("INSERT INTO sales_details(customer_id, staff_id) values(%s, %s)", (customer, vendor))
+    cursor.execute("INSERT INTO sales_details(customer_id, staff_id) VALUES(%s, %s)", (customer, vendor))
     conn.commit()
     redirect("/sales")
 
+<<<<<<< Updated upstream
 #Lägger till varor för kvittot kopplat till sales_details
+=======
+>>>>>>> Stashed changes
 @route("/add_product_to_sales", method="POST")
 def add_to_sales():
     sql_get_sales_id = "SELECT last_value FROM sales_details_sales_id_seq"
@@ -156,11 +174,15 @@ def add_to_sales():
     sales_id = int(sales_id_tup[0])
     product_id = str(request.forms.get("product_id"))
     quantity = str(request.forms.get("quantity"))
-    cursor.execute("INSERT INTO sales (sales_id, product_id, quantity) values(‰s, ‰s, ‰s)", (sales_id, product_id, quantity))
+    cursor.execute("INSERT INTO sales(sales_id, product_id) VALUES(‰s, ‰s)", (sales_id, product_id))
     conn.commit()
     redirect("/sales")
+<<<<<<< Updated upstream
     
 #Läser in alla återfärsäljare som är registrerade i databasen
+=======
+
+>>>>>>> Stashed changes
 @route("/suppliers")
 def list_supplier():
     sql_supplier = "SELECT * FROM supplier ORDER BY supplier_name ASC"
