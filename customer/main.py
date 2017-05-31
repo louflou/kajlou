@@ -1,7 +1,7 @@
 # coding=utf-8
 import psycopg2 #Används för att skapa en koppling till databasen
 import bottle #Ramverk för att underlätta skapandet av en hemsida
-from bottle import route, run, template, os, static_file, debug
+from bottle import route, run, template, os, static_file, debug, request
 
 #Konnectar till databsen
 conn = psycopg2.connect(dbname="kajlou", user="ag8789", password="cl934pos", host="pgserver.mah.se")
@@ -96,6 +96,27 @@ def sort_price():
     cursor.execute(sql_brand)
     brand = cursor.fetchall()
     return template("price", products=products, category=category, brand=brand)
+
+#Hittar märken och/eller kategorier som användaren sökte på
+@route("/search", method="POST")
+def list_search():
+    sql_category = "SELECT DISTINCT category FROM products"
+    cursor.execute(sql_category)
+    category = cursor.fetchall()
+
+    sql_brand = "SELECT DISTINCT brand FROM products"
+    cursor.execute(sql_brand)
+    brand = cursor.fetchall()
+   
+    user_input = str(request.forms.get("search"))
+    print(user_input)
+    print(type(user_input))
+    sql_search = "SELECT product_name, description, brand, price, image FROM products WHERE category LIKE '%{}%' OR brand LIKE '%{}%'".format(user_input, user_input)
+    search = str(sql_search)
+    print(type(search))
+    cursor.execute(sql_search)
+    search = cursor.fetchall()
+    return template("search", search=search, category=category, brand=brand)
 
 #Kör systemet på följande address 
 run(host="127.0.0.1", port=8100)

@@ -16,10 +16,10 @@
 
             <div class="row">
                 <div class="hej">
-                    <form action="/search" method="post">
-                        <input type="text">
-                        <button type="submit">sök</button>
-                    </form>
+                  <form method="post" action="/search">
+                    <input type="text" id="search" name="search" placeholder="Sök efter kategori eller märke" required>
+                    <button type="submit">Sök</button>
+                  </form>
                 </div>
                 <div class="hej">
                     <h4>Kategorier</h4>
@@ -44,7 +44,7 @@
                         <li><a href="/max_pris">Högsta...</a></li>
                         <input type="range">
                     </ul>
-                </div>
+                    </div>
 
             </div>
             <h3 class="gles">Produkter:</h3>
