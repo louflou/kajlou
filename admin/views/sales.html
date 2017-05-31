@@ -75,34 +75,42 @@
             </section>
             
             
-             % for row in get_sales:
+             % for row in start:
+                
+              
             <section class="stock">
                 <article>
-                    <table id="inventory-table">
-                            
-                        <h3>{{ (row[5]) }}</h3>
-                                       
-                        <tr>
-                            <td>Sales id: </td>
+                    <table id="inventory-table">                                   
+                        <thead>
+                            <th>Kvittonr:</th>
+                            <th>Kundnr:</th>
+                            <th>Försäljare:</th>
+                        </thead>
+                        <tbody>
                             <td>{{ (row[0]) }}</td>
-                        </tr>
-                        <tr>
-                            <td>Customer ID: </td>
-                            <td>{{ (row[3]) }}</td>
-                        </tr>
-                        <tr>
-                            <td>Staff ID: </td>
-                            <td>{{ (row[4]) }}</td>
-                        </tr>
-                        
-                        <tr>
-                            <td>Produktid: </td>
                             <td>{{ (row[1]) }}</td>
-                        </tr>
-                        <tr>
-                            <td>Quantity: </td>
-                            <td>{{ (row[2]) }} </td>
-                        </tr>
+                            <td>{{ (row[2]) }}</td>
+                        </tbody>
+                    </table>
+                    <table>
+                        <thead>
+                            <th>Nr</th>
+                            <th>Produkt</th>
+                            <th>Pris</th>
+                            <th>Antal</th>
+                        </thead>
+                        <tbody>
+                            
+                            % for row in products[str(row[0])]:
+                            <tr>
+                                <td class="dotted">{{ (row[0]) }}</td>
+                                <td class="dotted">{{ (row[2]) }} {{ (row[1]) }}</td>
+                                <td class="dotted">{{ (row[3]) }} kr</td>
+                                <td class="dotted">{{ (row[4]) }}</td>
+                            </tr>
+                            % end
+                            
+                        </tbody>
                     </table>
                 </article>
             </section>

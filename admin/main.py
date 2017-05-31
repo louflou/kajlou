@@ -139,13 +139,28 @@ def list_out_of_stock():
     out_of_stock = cursor.fetchall()
     return template("out_of_stock", out_of_stock=out_of_stock)
 
+
 #Läser in alla kvitton med försäljningar som gjorts
 @route("/sales")    
 def list_sales():
-    sql_get_sales = "SELECT sales_details.sales_id, product_id, quantity, customer_id, staff_id, date FROM (sales JOIN sales_details ON sales.sales_id=sales_details.sales_id)"
-    cursor.execute(sql_get_sales)
-    get_sales = cursor.fetchall()
-    return template("sales", get_sales=get_sales)
+    cursor.execute("SELECT sales_id, customer_id, staff_id FROM sales_details")
+    start = cursor.fetchall()
+
+    products = {}
+    for row in start:
+        receipt = str(row[0])
+        cursor.execute("SELECT products.product_id, category, brand, price, quantity FROM sales JOIN products ON sales.product_id=products.product_id WHERE sales_id = %s", (receipt))
+        plist = cursor.fetchall()
+        products[receipt] = plist
+    print(products)
+    return template("sales", start=start, products=products)
+
+
+    
+        
+            
+
+     
 
 #Påbörjar en försäljning genom att registrerar en säljare och kund i tabellen sales_details
 @route("/begin_sales", method="POST")
@@ -165,7 +180,7 @@ def add_to_sales():
     sales_id = int(sales_id_tup[0])
     product_id = str(request.forms.get("product_id"))
     quantity = str(request.forms.get("quantity"))
-    cursor.execute("INSERT INTO sales(sales_id, product_id) VALUES(‰s, ‰s)", (sales_id, product_id))
+    cursor.execute("INSERT INTO sales(sales_id, product_id, quantity) VALUES(%s, %s, %s)", (sales_id, product_id, quantity))
     conn.commit()
     redirect("/sales")
     

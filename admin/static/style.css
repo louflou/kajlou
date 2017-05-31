@@ -161,6 +161,10 @@ i {
     font: capitalize;
 }
 
+.dotted {
+    border-bottom: 1px dotted #ccc;
+    width: 30%;
+}
 
 div.tooltip {
     position: relative;
