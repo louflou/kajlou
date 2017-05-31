@@ -21,11 +21,11 @@ def start():
     cursor.execute(sql_products)
     products = cursor.fetchall()
     
-    sql_category = "SELECT DISTINCT category FROM products"
+    sql_category = "SELECT DISTINCT category FROM products ORDER BY category"
     cursor.execute(sql_category)
     category = cursor.fetchall()
 
-    sql_brand = "SELECT DISTINCT brand FROM products"
+    sql_brand = "SELECT DISTINCT brand FROM products ORDER BY brand"
     cursor.execute(sql_brand)
     brand = cursor.fetchall()
     
@@ -38,11 +38,11 @@ def sort_category(category):
     cursor.execute(sql_sort_category, [category])
     products = cursor.fetchall()
 
-    sql_category = "SELECT DISTINCT category FROM products"
+    sql_category = "SELECT DISTINCT category FROM products ORDER BY category"
     cursor.execute(sql_category)
     category = cursor.fetchall()
 
-    sql_brand = "SELECT DISTINCT brand FROM products"
+    sql_brand = "SELECT DISTINCT brand FROM products ORDER BY brand"
     cursor.execute(sql_brand)
     brand = cursor.fetchall()
 
@@ -55,11 +55,11 @@ def sort_brand(brand):
     cursor.execute(sql_sort_brand, [brand])
     products = cursor.fetchall()
 
-    sql_category = "SELECT DISTINCT category FROM products"
+    sql_category = "SELECT DISTINCT category FROM products ORDER BY category"
     cursor.execute(sql_category)
     category = cursor.fetchall()
 
-    sql_brand = "SELECT DISTINCT brand FROM products"
+    sql_brand = "SELECT DISTINCT brand FROM products ORDER BY brand"
     cursor.execute(sql_brand)
     brand = cursor.fetchall()
 
@@ -72,11 +72,11 @@ def sort_price():
     cursor.execute(sql_sort_price)
     products = cursor.fetchall()
 
-    sql_category = "SELECT DISTINCT category FROM products"
+    sql_category = "SELECT DISTINCT category FROM products ORDER BY category"
     cursor.execute(sql_category)
     category = cursor.fetchall()
 
-    sql_brand = "SELECT DISTINCT brand FROM products"
+    sql_brand = "SELECT DISTINCT brand FROM products ORDER BY brand"
     cursor.execute(sql_brand)
     brand = cursor.fetchall()
     return template("price", products=products, category=category, brand=brand)
@@ -88,11 +88,11 @@ def sort_price():
     cursor.execute(sql_sort_price)
     products = cursor.fetchall()
 
-    sql_category = "SELECT DISTINCT category FROM products"
+    sql_category = "SELECT DISTINCT category FROM products ORDER BY category"
     cursor.execute(sql_category)
     category = cursor.fetchall()
 
-    sql_brand = "SELECT DISTINCT brand FROM products"
+    sql_brand = "SELECT DISTINCT brand FROM products ORDER BY brand"
     cursor.execute(sql_brand)
     brand = cursor.fetchall()
     return template("price", products=products, category=category, brand=brand)
@@ -100,22 +100,19 @@ def sort_price():
 #Hittar märken och/eller kategorier som användaren sökte på
 @route("/search", method="POST")
 def list_search():
-    sql_category = "SELECT DISTINCT category FROM products"
+    sql_category = "SELECT DISTINCT category FROM products ORDER BY vategory"
     cursor.execute(sql_category)
     category = cursor.fetchall()
 
-    sql_brand = "SELECT DISTINCT brand FROM products"
+    sql_brand = "SELECT DISTINCT brand FROM products ORDER BY brand"
     cursor.execute(sql_brand)
     brand = cursor.fetchall()
    
     user_input = str(request.forms.get("search"))
-    print(user_input)
-    print(type(user_input))
-    sql_search = "SELECT product_name, description, brand, price, image FROM products WHERE category LIKE '%{}%' OR brand LIKE '%{}%'".format(user_input, user_input)
-    search = str(sql_search)
-    print(type(search))
+    sql_search = "SELECT product_name, description, brand, price, image FROM products WHERE product_name LIKE '%{}%'".format(user_input)
     cursor.execute(sql_search)
     search = cursor.fetchall()
+    print(search)
     return template("search", search=search, category=category, brand=brand)
 
 #Kör systemet på följande address 
