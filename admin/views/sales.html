@@ -61,8 +61,7 @@
 
                             <tr>
                                 <td></td>
-                                <td>
-                                </td>
+                                <td><form action="/finish_sales" method="POST"><button type="submit">Avsluta köp!</button></form></td>
                             </tr>
                             
                             <tr>
@@ -90,6 +89,7 @@
                             <td>{{ (row[0]) }}</td>
                             <td>{{ (row[1]) }}</td>
                             <td>{{ (row[2]) }}</td>
+                            
                         </tbody>
                     </table>
                     <table>
@@ -101,14 +101,21 @@
                         </thead>
                         <tbody>
                             
-                            % for row in products[str(row[0])]:
+                            % for p in products[str(row[0])]:
                             <tr>
-                                <td class="dotted">{{ (row[0]) }}</td>
-                                <td class="dotted">{{ (row[2]) }} {{ (row[1]) }}</td>
-                                <td class="dotted">{{ (row[3]) }} kr</td>
-                                <td class="dotted">{{ (row[4]) }}</td>
+                                <td class="dotted">{{ (p[0]) }}</td>
+                                <td class="dotted">{{ (p[2]) }} {{ (p[1]) }}</td>
+                                <td class="dotted">{{ (p[3]) }} kr</td>
+                                <td class="dotted">{{ (p[4]) }}</td>
                             </tr>
+                
                             % end
+                            
+                            <tr>
+                                <td>Totalt: </td>
+                                <td>{{ (row[3]) }} kr</td>
+                            </tr>
+                            
                             
                         </tbody>
                     </table>

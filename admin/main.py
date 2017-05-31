@@ -1,7 +1,9 @@
-# coding=utf-8
+#coding=utf-8
 import psycopg2 #Används för att kopla till databasen
 import bottle #Ramverk som används för att underlätta skapandet av en websida
+import datetime
 from bottle import route, run, template, os, static_file, debug, request, redirect
+
 
 #Konnectar till databsen
 conn = psycopg2.connect(dbname="kajlou", user="ag8789", password="cl934pos", host="pgserver.mah.se")
@@ -22,14 +24,6 @@ def start():
 
 #Visar alla kunder som är registrerade i databsen
 @route("/customers")
-def list_customers():
-    sql_customers = "SELECT * FROM customers ORDER BY total_sales DESC"
-    cursor.execute(sql_customers)
-    customers = cursor.fetchall()
-    return template("customers", customers=customers)
-
-#Sorterar kundernas namn i bokstavsorning
-@route("/customers/name")
 def list_customers():
     sql_customers = "SELECT * FROM customers ORDER BY customer_name ASC"
     cursor.execute(sql_customers)
@@ -60,10 +54,7 @@ def add_customer():
     address = str(request.forms.get("address"))
     postno = str(request.forms.get("postno"))
     region = str(request.forms.get("region"))
-    total_sales = '0' #TA BOOOOOOOOOOOOOOOOOOOOOOOOOOOOORT
-    cursor.execute("INSERT INTO customers (pno, customer_name, email, address, postno, region, total_sales) values(%s, %s, %s, %s, %s, %s, %s)", (pno, customer_name, email, address, postno, region, total_sales))
-    total_sales = '0'
-    cursor.execute("INSERT INTO customers (pno, customer_name, email, address, postno, region, total_sales) VALUES(%s, %s, %s, %s, %s, %s, %s)", (pno, customer_name, email, address, postno, region, total_sales))
+    cursor.execute("INSERT INTO customers (pno, customer_name, email, address, postno, region) VALUES(%s, %s, %s, %s, %s, %s)", (pno, customer_name, email, address, postno, region))
     conn.commit()
     redirect("/customers") #Skickas sen till funktionen "customers" som läser in alla kunder på nytt så att användaren kan se att kunden blivit reigstrerad
 
@@ -143,24 +134,34 @@ def list_out_of_stock():
 #Läser in alla kvitton med försäljningar som gjorts
 @route("/sales")    
 def list_sales():
-    cursor.execute("SELECT sales_id, customer_id, staff_id FROM sales_details")
+    cursor.execute("SELECT sales_id, customer_id, staff_id, subtotal FROM sales_details")
     start = cursor.fetchall()
-
     products = {}
     for row in start:
         receipt = str(row[0])
-        cursor.execute("SELECT products.product_id, category, brand, price, quantity FROM sales JOIN products ON sales.product_id=products.product_id WHERE sales_id = %s", (receipt))
+        cursor.execute("SELECT products.product_id, category, brand, price, quantity FROM sales JOIN products ON sales.product_id=products.product_id WHERE sales_id = {}".format(receipt))
         plist = cursor.fetchall()
         products[receipt] = plist
-    print(products)
     return template("sales", start=start, products=products)
 
 
+@route("/finish_sales", method="POST")        
+def finish_sales():
+    cursor.execute("SELECT last_value FROM sales_details_sales_id_seq")
+    sales_id_tup = cursor.fetchone()
+    sales_id = sales_id_tup[0]
+    cursor.execute("SELECT SUM(quantity * price) FROM sales JOIN products ON sales.product_id=products.product_id WHERE sales_id={}".format(sales_id))
+    total_tup = cursor.fetchone()
+    subtotal = total_tup[0]
     
-        
-            
-
-     
+    now = datetime.datetime.now()
+    get_date = now.strftime("%Y-%m-%d %H:%M")
+    date = str(get_date)
+    
+    cursor.execute("UPDATE sales_details SET subtotal = {}, date = {} WHERE sales_id = {}".format(subtotal, date, sales_id))
+    conn.commit()
+    redirect("/sales")
+    
 
 #Påbörjar en försäljning genom att registrerar en säljare och kund i tabellen sales_details
 @route("/begin_sales", method="POST")
@@ -180,7 +181,15 @@ def add_to_sales():
     sales_id = int(sales_id_tup[0])
     product_id = str(request.forms.get("product_id"))
     quantity = str(request.forms.get("quantity"))
+    
+    cursor.execute("SELECT quantity FROM inventory WHERE product_id = {}".format(product_id))
+    current_quantity_tup = cursor.fetchone()
+    current_quantity = current_quantity_tup[0]
+    new_quantity = int(current_quantity) - int(quantity)
+    
+    
     cursor.execute("INSERT INTO sales(sales_id, product_id, quantity) VALUES(%s, %s, %s)", (sales_id, product_id, quantity))
+    cursor.execute("UPDATE inventory SET quantity = {} WHERE product_id = {}".format(new_quantity, product_id))
     conn.commit()
     redirect("/sales")
     
