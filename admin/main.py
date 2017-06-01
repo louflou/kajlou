@@ -83,7 +83,7 @@ def add_product():
     sql_get_product_id = "SELECT last_value FROM products_product_id_seq"
     cursor.execute(sql_get_product_id)
     product_id_tup = cursor.fetchone()
-    product_id = product_id_tup[0]
+    product_id = product_id_tup[0] #Hämtar ut det första värdet i tuplen
     supplier = str(request.forms.get("supplier"))
     product_cost = str(request.forms.get("cost"))
     quantity = str(request.forms.get("quantity"))
