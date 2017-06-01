@@ -15,7 +15,7 @@
                     <a href="/">Mörtfors vitvaror (admin)</a>
                 </h1>
             </header>
-            
+
             <nav>
                 <ul>
                     <li><a href="/customers">Kundlista</a></li>
@@ -25,21 +25,14 @@
                     <li><a href="/staff">Personal</a></li>
                 </ul>
             </nav>
-            
+
             <div class="row">
                 <ul>
                     <li><a class="active" href="/inventory">Lager</a></li>
                     <li><a href="/out_of_stock">Slut på lager</a></li>
                 </ul>
-                
-                <div class="hej">
-                    <form action="/search" method="post">
-                        <input type="text">
-                        <button type="submit">sök</button>
-                    </form>
-                </div> 
             </div>
-            
+
             <section class="stock">
                 <article>
                     <table>
@@ -53,7 +46,7 @@
                                     <input type="text" id="product_name" name="product_name" placeholder="Produktnamn" required><br>
                                     <input name="brand" id="brand" type="text" placeholder="Märke" required> <br>
                                     <input name="category" id="category" type="text" placeholder="Kategori" required><br>
-                                    <input type="number" id="price" name="price" placeholder="Pris" required> 
+                                    <input type="number" id="price" name="price" placeholder="Pris" required>
                                 </td>
                             </tr>
                             <tr>
@@ -65,20 +58,20 @@
                                 <td><textarea id="description" name="description" placeholder="Beskrivning"></textarea></td>
                             </tr>
                             <tr>
-                                
+
                                 <td><i class="material-icons">store</i></td>
-                                
+
                                 <td>
                                     <input type="text" id="supplier" name="supplier" placeholder="Återförsäljare" required><br>
                                     <input type="number" id="cost" name="cost" placeholder="Kostnad" required>
-                                    
+
                                 </td>
                             </tr>
                             <tr>
                                 <td><i class="material-icons">receipt</i></td>
                                 <td><input type="number" id="quantity" name="quantity" placeholder="Antal"></td>
                             </tr>
-                            
+
                             <tr>
                                 <td></td>
                                 <td><button type="submit">Registrera vara</button></td>
@@ -87,7 +80,7 @@
                     </table>
                 </article>
             </section>
-            
+
             <section class="stock">
                 <article>
                     <table>
@@ -102,7 +95,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                
+
                                 <td><i class="material-icons">store</i></td>
                                 <td>
                                     <input type="text" id="x_supplier" name="x_supplier" placeholder="Återförsäljare" required>
@@ -112,7 +105,7 @@
                                 <td><i class="material-icons">receipt</i></td>
                                 <td><input type="number" id="x_quantity" name="x_quantity" placeholder="Antal att lägga till"></td>
                             </tr>
-                            
+
                             <tr>
                                 <td></td>
                                 <td><button type="submit">Uppdatera vara</button></td>
@@ -121,19 +114,19 @@
                     </table>
                 </article>
             </section>
-            
-            
-            
+
+
+
              % for row in stock:
             <section class="stock">
-                
+
                 <p alt="Produktnr." class="pid">{{ (row[8]) }}</p>
                 <img src="{{ (row[3]) }}">
                 <article>
                     <table id="inventory-table">
-                            
+
                         <h3>{{ (row[1]) }} {{ (row[0]) }} {{ (row[7]) }}</h3>
-                        
+
                         <tr>
                             <td>
                                 <i class="material-icons">store</i>
@@ -152,13 +145,13 @@
                             <td><i class="material-icons">receipt</i></td>
                             <td>{{ (row[5]) }} st på lager</td>
                         </tr>
-                        
+
                     </table>
                 </article>
             </section>
               % end
-            
-            
+
+
         </div>
     </body>
 </html>
