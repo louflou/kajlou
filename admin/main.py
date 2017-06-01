@@ -46,6 +46,7 @@ def list_customers():
     customers = cursor.fetchall()
     return template("search", customers=customers)
 
+#Lägger till en kund i databsen
 @route("/add_customer", method="POST")
 def add_customer():
     pno = str(request.forms.get("pno"))
@@ -144,7 +145,7 @@ def list_sales():
         products[receipt] = plist
     return template("sales", start=start, products=products)
 
-
+#Avslutar köpet
 @route("/finish_sales", method="POST")        
 def finish_sales():
     cursor.execute("SELECT last_value FROM sales_details_sales_id_seq")
@@ -194,7 +195,6 @@ def add_to_sales():
     redirect("/sales")
     
 #Läser in alla återfärsäljare som är registrerade i databasen
-
 @route("/suppliers")
 def list_supplier():
     sql_supplier = "SELECT * FROM supplier ORDER BY supplier_name ASC"
