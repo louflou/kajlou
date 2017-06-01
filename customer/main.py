@@ -112,7 +112,6 @@ def list_search():
     sql_search = "SELECT product_name, description, brand, price, image FROM products WHERE product_name LIKE '%{}%'".format(user_input)
     cursor.execute(sql_search)
     search = cursor.fetchall()
-    print(search)
     return template("search", search=search, category=category, brand=brand)
 
 #Kör systemet på följande address 

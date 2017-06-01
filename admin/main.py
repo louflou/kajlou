@@ -141,12 +141,12 @@ def list_out_of_stock():
 def list_sales():
     cursor.execute("SELECT sales_id, customer_id, staff_id, subtotal FROM sales_details")
     start = cursor.fetchall()
-    products = {}
+    products = {} #Skapar ett lexikon
     for row in start:
-        receipt = str(row[0])
+        receipt = str(row[0]) 
         cursor.execute("SELECT products.product_id, category, brand, price, quantity FROM sales JOIN products ON sales.product_id=products.product_id WHERE sales_id = {}".format(receipt))
         plist = cursor.fetchall()
-        products[receipt] = plist
+        products[receipt] = plist #Använder sales_id som nyckel för lexikonet för alla produkter
     return template("sales", start=start, products=products)
 
 #Avslutar köpet
@@ -158,9 +158,9 @@ def finish_sales():
     cursor.execute("SELECT SUM(quantity * price) FROM sales JOIN products ON sales.product_id=products.product_id WHERE sales_id={}".format(sales_id))
     total_tup = cursor.fetchone()
     subtotal = total_tup[0]
-    
-    now = datetime.datetime.now()
-    get_date = now.strftime("%Y-%m-%d")
+
+    now = datetime.datetime.now() #Hämtar dagens datum och tid 
+    get_date = now.strftime("%Y-%m-%d %H:%M")
     date = str(get_date)
     
     cursor.execute("UPDATE sales_details SET subtotal = {0}, date = {1} WHERE sales_id = {2}".format(subtotal, date, sales_id))
