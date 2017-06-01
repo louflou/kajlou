@@ -81,7 +81,7 @@
                             
                             <tr>
                                 <td></td>
-                                <td><button type="submit">Registrera</button></td>
+                                <td><button type="submit">Registrera vara</button></td>
                             </tr>
                         </form>
                     </table>
@@ -91,7 +91,7 @@
             <section class="stock">
                 <article>
                     <table>
-                        Uppdatera lagerstatus på befintlig vara:
+                        Lägg till befintlig vara:
                         <form method="post" action="/update_product">
                             <tr>
                                 <td>
@@ -115,7 +115,7 @@
                             
                             <tr>
                                 <td></td>
-                                <td><button type="submit">Uppdatera</button></td>
+                                <td><button type="submit">Uppdatera vara</button></td>
                             </tr>
                         </form>
                     </table>
@@ -142,11 +142,11 @@
                         </tr>
                         <tr>
                             <td><i class="material-icons">payment</i></td>
-                            <td>{{ (row[6]) }}kr </td>
+                            <td>{{ (row[6]) }} kr </td>
                         </tr>
                         <tr>
                             <td><i class="material-icons">assessment</i></td>
-                            <td>{{ (row[2])-(row[6]) }}kr</td>
+                            <td>{{ (row[2])-(row[6]) }} kr</td>
                         </tr>
                         <tr>
                             <td><i class="material-icons">receipt</i></td>

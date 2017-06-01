@@ -43,11 +43,12 @@
             
              % for row in out_of_stock:
             <section class="stock">
+                <p alt="Produktnr." class="pid">{{ (row[8]) }}</p>
                 <img src="{{ (row[3]) }}">
                 <article>
                     <table id="inventory-table">
                             
-                        <h3>{{ (row[1]) }} {{ (row[0]) }}</h3>
+                        <h3>{{ (row[1]) }} {{ (row[0]) }} {{ (row[7]) }}</h3>
                         
                         <tr>
                             <td><i class="material-icons">store</i></td>
@@ -55,11 +56,11 @@
                         </tr>
                         <tr>
                             <td><i class="material-icons">payment</i></td>
-                            <td>{{ (row[6]) }}kr </td>
+                            <td>{{ (row[6]) }} kr </td>
                         </tr>
                         <tr>
                             <td><i class="material-icons">assessment</i></td>
-                            <td>{{ (row[2])-(row[6]) }}kr</td>
+                            <td>{{ (row[2])-(row[6]) }} kr</td>
                         </tr>
                         <tr>
                             <td><i class="material-icons">receipt</i></td>

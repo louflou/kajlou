@@ -27,8 +27,9 @@
 
             <div class="row">
                 <ul>
-                    <li><a href="/customers">Namn</a></li>
+                    <li><a href="/customers/name">Namn</a></li>
                     <li><a href="/customers/region">Region</a></li>
+                    <li><a href="/customers">Värde</a></li>
                 </ul>
 
             </div>
@@ -40,7 +41,7 @@
 
 
                     <table>
-                        Lägg till kund:
+                        Lägg till ny kund:
                         <form method="post" action="/add_customer">
                             <tr>
                                 <td>
@@ -65,7 +66,7 @@
                             </tr>
                             <tr>
                                 <td></td>
-                                <td><button type="submit">Registrera</button></td>
+                                <td><button type="submit">Registrera kund</button></td>
                             </tr>
                         </form>
                     </table>
@@ -91,7 +92,8 @@
                         </tr>
                         <tr>
                             <td><i class="material-icons">shopping_cart</i></td>
-                            <td>kr</td>
+                            <td>{{ (row[6]) }} kr</td>
+                            
                         </tr>
                     </table>
                 </article>

@@ -23,26 +23,30 @@ def start():
     return template("index")
 
 #Visar alla kunder som är registrerade i databsen
-@route("/customers")
+@route("/customers/name")
 def list_customers():
-    sql_customers = "SELECT * FROM customers ORDER BY customer_name ASC"
-    cursor.execute(sql_customers)
+    cursor.execute("SELECT pno, customer_name, email, address, postno, region, SUM(subtotal) FROM customers JOIN sales_details ON pno=customer_id GROUP BY pno ORDER BY customer_name ASC")
     customers = cursor.fetchall()
     return template("customers", customers=customers)
 
 #Sorterar kundernas hemstad i bokstavsordning
 @route("/customers/region")
 def list_customers():
-    sql_customers = "SELECT * FROM customers ORDER BY region ASC"
-    cursor.execute(sql_customers)
+    cursor.execute("SELECT pno, customer_name, email, address, postno, region, SUM(subtotal) FROM customers JOIN sales_details ON pno=customer_id GROUP BY pno ORDER BY region ASC")
+    customers = cursor.fetchall()
+    return template("customers", customers=customers)
+
+#Sorterar kundernas värde utifrån vad de handlat 
+@route("/customers")
+def list_customers():
+    cursor.execute("SELECT pno, customer_name, email, address, postno, region, SUM(subtotal) FROM customers JOIN sales_details ON pno=customer_id GROUP BY pno ORDER BY sum(subtotal) DESC")
     customers = cursor.fetchall()
     return template("customers", customers=customers)
 
 #Funktion som lägger till en kund i databasene med information hätmad från ett formulär i HTML
 @route("/customers/search")
 def list_customers():
-    sql_customers = "SELECT * FROM customers WHERE region LIKE %s"
-    cursor.execute(sql_customers)
+    cursor.execute("SELECT pno, customer_name, email, address, postno, region, SUM(subtotal) FROM customers JOIN sales_details ON pno=customer_id GROUP BY pno WHERE region=%s ORDER BY region ASC")
     customers = cursor.fetchall()
     return template("search", customers=customers)
 
@@ -126,7 +130,7 @@ def update_existing():
 #Läser in alla varor i lagret där quantity är mindre än 0 för att se vilka registrerade varor som inte finns på lager
 @route("/out_of_stock")
 def list_out_of_stock():
-    sql_out_of_stock = "SELECT product_name, brand, price, image, supplier, quantity, product_cost, category FROM (products JOIN inventory ON products.product_id=inventory.product_id) WHERE quantity = 0 ORDER BY product_name ASC"
+    sql_out_of_stock = "SELECT product_name, brand, price, image, supplier, quantity, product_cost, category, products.product_id FROM (products JOIN inventory ON products.product_id=inventory.product_id) WHERE quantity = 0 ORDER BY product_name ASC"
     cursor.execute(sql_out_of_stock)
     out_of_stock = cursor.fetchall()
     return template("out_of_stock", out_of_stock=out_of_stock)
@@ -156,10 +160,10 @@ def finish_sales():
     subtotal = total_tup[0]
     
     now = datetime.datetime.now()
-    get_date = now.strftime("%Y-%m-%d %H:%M")
+    get_date = now.strftime("%Y-%m-%d")
     date = str(get_date)
     
-    cursor.execute("UPDATE sales_details SET subtotal = {}, date = {} WHERE sales_id = {}".format(subtotal, date, sales_id))
+    cursor.execute("UPDATE sales_details SET subtotal = {0}, date = {1} WHERE sales_id = {2}".format(subtotal, date, sales_id))
     conn.commit()
     redirect("/sales")
     
