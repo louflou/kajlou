@@ -97,7 +97,7 @@ def sort_price():
     brand = cursor.fetchall()
     return template("price", products=products, category=category, brand=brand)
 
-#Hittar märken och/eller kategorier som användaren sökte på
+#Hittar produkten efter produktnamnet som användaren sökte på
 @route("/search", method="POST")
 def list_search():
     sql_category = "SELECT DISTINCT category FROM (products JOIN inventory ON products.product_id=inventory.product_id) WHERE quantity > 0 ORDER BY category"
@@ -109,6 +109,7 @@ def list_search():
     brand = cursor.fetchall()
    
     user_input = str(request.forms.get("search"))
+    print(user_input)
     sql_search = "SELECT product_name, description, brand, price, image FROM products WHERE product_name LIKE '%{}%'".format(user_input)
     cursor.execute(sql_search)
     search = cursor.fetchall()
