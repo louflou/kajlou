@@ -27,18 +27,10 @@
             </nav>
             
             <div class="row">
-
                 <ul>
                     <li><a href="/inventory">Lager</a></li>
-                    <li><a class="active" href="/out_of_stock">Slut på lager</a></li>
+                    <li><a class="active" href="/out_of_stock">Ej på lager</a></li>
                 </ul>
-
-                <div class="hej">
-                    <form action="/search" method="post">
-                        <input type="text">
-                        <button type="submit">sök</button>
-                    </form>
-                </div> 
             </div>
             
              % for row in out_of_stock:

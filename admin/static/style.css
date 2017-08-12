@@ -62,6 +62,7 @@ section {
 }
 .stock {
     height: 480px; 
+    overflow: scroll;
 }
 .staff {
     height: 350px !important;
@@ -86,6 +87,11 @@ section {
 #inventory-section {
     width:40%;
 }
+section.wider {
+    width:500px !important;
+    height: 600px !important;
+}
+
 section article {
     width:100%;
     margin-top: 20px;
@@ -95,12 +101,17 @@ section article {
     //height:300px;
     box-sizing: border-box;
 }
+
 th, td {
     padding:15px;
     text-align: left;
 }
 #inventory-table th, td{
-    padding: 8px !important;
+    width:25%;
+    box-sizing: border-box;
+    padding: 10px !imporant;
+    box-sizing: border-box;
+    width:30%;
     text-align:left;
 }
 td a{
@@ -161,7 +172,7 @@ i {
     font: capitalize;
 }
 
-.dotted {
+.dotted td{
     border-bottom: 1px dotted #ccc;
     width: 30%;
 }

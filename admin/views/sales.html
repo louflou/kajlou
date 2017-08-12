@@ -77,21 +77,23 @@
              % for row in start:
                 
               
-            <section class="stock">
+            <section class="stock wider">
                 <article>
-                    <table id="inventory-table">                                   
+                    <table id="inventory-table">                                 
                         <thead>
                             <th>Kvittonr:</th>
                             <th>Kundnr:</th>
                             <th>Försäljare:</th>
+                            <th></th>
                         </thead>
                         <tbody>
                             <td>{{ (row[0]) }}</td>
                             <td>{{ (row[1]) }}</td>
                             <td>{{ (row[2]) }}</td>
-                            
+                            <th></th>
                         </tbody>
                     </table>
+                    <hr>
                     <table>
                         <thead>
                             <th>Nr</th>
@@ -102,11 +104,11 @@
                         <tbody>
                             
                             % for p in products[str(row[0])]:
-                            <tr>
-                                <td class="dotted">{{ (p[0]) }}</td>
-                                <td class="dotted">{{ (p[2]) }} {{ (p[1]) }}</td>
-                                <td class="dotted">{{ (p[3]) }} kr</td>
-                                <td class="dotted">{{ (p[4]) }}</td>
+                            <tr class="dotted">
+                                <td>{{ (p[0]) }}</td>
+                                <td>{{ (p[2]) }} {{ (p[1]) }}</td>
+                                <td>{{ (p[3]) }} kr</td>
+                                <td>{{ (p[4]) }}</td>
                             </tr>
                 
                             % end
