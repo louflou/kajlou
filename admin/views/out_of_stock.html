@@ -15,7 +15,7 @@
                     <a href="/">Mörtfors vitvaror (admin)</a>
                 </h1>
             </header>
-            
+
             <nav>
                 <ul>
                     <li><a href="/customers">Kundlista</a></li>
@@ -25,7 +25,7 @@
                     <li><a href="/staff">Personal</a></li>
                 </ul>
             </nav>
-            
+
             <div class="row">
 
                 <ul>
@@ -33,23 +33,17 @@
                     <li><a class="active" href="/out_of_stock">Slut på lager</a></li>
                 </ul>
 
-                <div class="hej">
-                    <form action="/search" method="post">
-                        <input type="text">
-                        <button type="submit">sök</button>
-                    </form>
-                </div> 
-            </div>
-            
+                
+
              % for row in out_of_stock:
             <section class="stock">
                 <p alt="Produktnr." class="pid">{{ (row[8]) }}</p>
                 <img src="{{ (row[3]) }}">
                 <article>
                     <table id="inventory-table">
-                            
+
                         <h3>{{ (row[1]) }} {{ (row[0]) }} {{ (row[7]) }}</h3>
-                        
+
                         <tr>
                             <td><i class="material-icons">store</i></td>
                             <td>{{ (row[4]) }}</td>
@@ -70,8 +64,8 @@
                 </article>
             </section>
               % end
-            
-            
+
+
         </div>
     </body>
 </html>

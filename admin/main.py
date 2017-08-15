@@ -22,10 +22,10 @@ def send_static(filename):
 def start():
     return template("index")
 
-#Visar alla kunder som är registrerade i databsen
-@route("/customers/name")
+#Sorterar kundernas värde utifrån vad de handlat 
+@route("/customers")
 def list_customers():
-    cursor.execute("SELECT pno, customer_name, email, address, postno, region, SUM(subtotal) FROM customers JOIN sales_details ON pno=customer_id GROUP BY pno ORDER BY customer_name ASC")
+    cursor.execute("SELECT pno, customer_name, email, address, postno, region FROM customers")
     customers = cursor.fetchall()
     return template("customers", customers=customers)
 
@@ -36,10 +36,10 @@ def list_customers():
     customers = cursor.fetchall()
     return template("customers", customers=customers)
 
-#Sorterar kundernas värde utifrån vad de handlat 
-@route("/customers")
+#Visar alla kunder som är registrerade i databsen
+@route("/customers/name")
 def list_customers():
-    cursor.execute("SELECT pno, customer_name, email, address, postno, region, SUM(subtotal) FROM customers JOIN sales_details ON pno=customer_id GROUP BY pno ORDER BY sum(subtotal) DESC")
+    cursor.execute("SELECT pno, customer_name, email, address, postno, region, SUM(subtotal) FROM customers JOIN sales_details ON pno=customer_id GROUP BY pno ORDER BY customer_name ASC")
     customers = cursor.fetchall()
     return template("customers", customers=customers)
 
@@ -109,7 +109,7 @@ def list_stock():
     sql_get_supplier = "SELECT supplier_name FROM supplier"
     cursor.execute(sql_get_supplier)
     suppliers = cursor.fetchall()
-    sql_get_stock = "SELECT product_name, brand, price, image, supplier, quantity, product_cost, category, products.product_ID FROM (products JOIN inventory ON products.product_id=inventory.product_id) WHERE quantity > 0 ORDER BY product_name ASC"
+    sql_get_stock = "SELECT product_name, brand, price, image, supplier, quantity, product_cost, category, products.product_ID FROM (products JOIN inventory ON products.product_id=inventory.product_id) WHERE quantity > 0 ORDER BY product_ID ASC"
     cursor.execute(sql_get_stock)
     stock = cursor.fetchall()
     return template("inventory", stock=stock, suppliers=suppliers)
@@ -149,25 +149,6 @@ def list_sales():
         products[receipt] = plist #Använder sales_id som nyckel för lexikonet för alla produkter
     return template("sales", start=start, products=products)
 
-#Avslutar köpet
-@route("/finish_sales", method="POST")        
-def finish_sales():
-    cursor.execute("SELECT last_value FROM sales_details_sales_id_seq")
-    sales_id_tup = cursor.fetchone()
-    sales_id = sales_id_tup[0]
-    cursor.execute("SELECT SUM(quantity * price) FROM sales JOIN products ON sales.product_id=products.product_id WHERE sales_id={}".format(sales_id))
-    total_tup = cursor.fetchone()
-    subtotal = total_tup[0]
-
-    now = datetime.datetime.now() #Hämtar dagens datum och tid 
-    get_date = now.strftime("%Y-%m-%d %H:%M")
-    date = str(get_date)
-    
-    cursor.execute("UPDATE sales_details SET subtotal = {0}, date = {1} WHERE sales_id = {2}".format(subtotal, date, sales_id))
-    conn.commit()
-    redirect("/sales")
-    
-
 #Påbörjar en försäljning genom att registrerar en säljare och kund i tabellen sales_details
 @route("/begin_sales", method="POST")
 def reg_sales():
@@ -195,6 +176,24 @@ def add_to_sales():
     
     cursor.execute("INSERT INTO sales(sales_id, product_id, quantity) VALUES(%s, %s, %s)", (sales_id, product_id, quantity))
     cursor.execute("UPDATE inventory SET quantity = {} WHERE product_id = {}".format(new_quantity, product_id))
+    conn.commit()
+    redirect("/sales")
+
+#Avslutar köpet
+@route("/finish_sales", method="POST")        
+def finish_sales():
+    cursor.execute("SELECT last_value FROM sales_details_sales_id_seq")
+    sales_id_tup = cursor.fetchone()
+    sales_id = sales_id_tup[0]
+    cursor.execute("SELECT SUM(quantity * price) FROM sales JOIN products ON sales.product_id=products.product_id WHERE sales_id={}".format(sales_id))
+    total_tup = cursor.fetchone()
+    subtotal = total_tup[0]
+
+    now = datetime.datetime.now() #Hämtar dagens datum och tid 
+    get_date = now.strftime("%Y-%m-%d %H:%M")
+    date = str(get_date)
+    
+    cursor.execute("UPDATE sales_details SET subtotal = {0}, date = {1} WHERE sales_id = {2}".format(subtotal, date, sales_id))
     conn.commit()
     redirect("/sales")
     

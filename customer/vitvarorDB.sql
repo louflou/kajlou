@@ -69,7 +69,8 @@ insert into staff (title, staff_name, phone, email) values
 insert into customers (pno, customer_name, email, address, postno, region) values
 	('880924-1723', 'Mikaela Arvidsson', 'mikkan__88@hotmail.com', 'Bäckahästgatan 35', '234 12', 'Malmö'),
 	('791103-4551', 'Arvid Svensson', 'arvid.p.svensson@hotmail.com', 'Solbackevägen 7A', '213 13', 'Svalöv'),
-	('910127-7840', 'Hanna Svärdh', 'svärdhiz_91@hotmail.com', 'Viskaregatan 26F', '253 60', 'Ramlösa');
+	('910127-7840', 'Hanna Svärdh', 'svärdhiz_91@hotmail.com', 'Viskaregatan 26F', '253 60', 'Ramlösa')
+	('861117-6521', 'Lisa Gran', 'gran@gmail.com', 'Granvägen 12', '124 12', 'Helsingborg');
 insert into supplier(supplier_name, phone, website) values
 	('Candy', '040-141202', 'http://www.candy-domestic.co.uk/'),
 	('Elektrolux', '08-141614', 'http://www.electrolux.se/'),
