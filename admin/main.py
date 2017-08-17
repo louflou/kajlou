@@ -29,30 +29,16 @@ def start():
 #Sorterar kundernas värde utifrån vad de handlat 
 @route("/customers")
 def list_customers():
-    cursor.execute("SELECT pno, customer_name, email, address, postno, region FROM customers")
-    customers = cursor.fetchall()
-    return template("customers", customers=customers)
-
-#Sorterar kundernas hemstad i bokstavsordning
-@route("/customers/region")
-def list_customers():
-    cursor.execute("SELECT pno, customer_name, email, address, postno, region, SUM(subtotal) FROM customers JOIN sales_details ON pno=customer_id GROUP BY pno ORDER BY region ASC")
-    customers = cursor.fetchall()
-    return template("customers", customers=customers)
-
-#Visar alla kunder som är registrerade i databsen
-@route("/customers/name")
-def list_customers():
-    cursor.execute("SELECT pno, customer_name, email, address, postno, region, SUM(subtotal) FROM customers JOIN sales_details ON pno=customer_id GROUP BY pno ORDER BY customer_name ASC")
+    cursor.execute("SELECT pno, customer_name, email, address, postno, region FROM customers ORDER BY customer_name")
     customers = cursor.fetchall()
     return template("customers", customers=customers)
 
 #Funktion som lägger till en kund i databasene med information hätmad från ett formulär i HTML
-@route("/customers/search")
+@route("/customers/value")
 def list_customers():
-    cursor.execute("SELECT pno, customer_name, email, address, postno, region, SUM(subtotal) FROM customers JOIN sales_details ON pno=customer_id GROUP BY pno WHERE region=%s ORDER BY region ASC")
+    cursor.execute("SELECT pno, customer_name, email, address, postno, region, SUM(subtotal) FROM customers JOIN sales_details ON pno=customer_id GROUP BY pno ORDER BY SUM(subtotal) DESC")
     customers = cursor.fetchall()
-    return template("search", customers=customers)
+    return template("value", customers=customers)
 
 #Lägger till en kund i databsen
 @route("/add_customer", method="POST")
@@ -63,7 +49,8 @@ def add_customer():
     address = str(request.forms.get("address"))
     postno = str(request.forms.get("postno"))
     region = str(request.forms.get("region"))
-    cursor.execute("INSERT INTO customers (pno, customer_name, email, address, postno, region) VALUES(%s, %s, %s, %s, %s, %s)", (pno, customer_name, email, address, postno, region))
+    total_sales = "0"
+    cursor.execute("INSERT INTO customers (pno, customer_name, email, address, postno, region, total_sales) VALUES(%s, %s, %s, %s, %s, %s, %s)", (pno, customer_name, email, address, postno, region, total_sales))
     conn.commit()
     redirect("/customers") #Skickas sen till funktionen "customers" som läser in alla kunder på nytt så att användaren kan se att kunden blivit reigstrerad
 
@@ -225,5 +212,5 @@ def list_supplier():
     return template("suppliers", supplier=supplier)
 
 #Kör systemet på följande address
-run(host="127.0.0.1", port=8126, reloader=True)
+run(host="127.0.0.1", port=8112)
 
