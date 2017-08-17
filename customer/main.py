@@ -20,6 +20,7 @@ def get_cat():
     cursor.execute(sql_category)
     category = cursor.fetchall()
     return category
+
 def get_brand():
     ''' Hämtar värden för märken till menylänkarna för sök-filter'''
     sql_brand = "SELECT DISTINCT brand FROM (products JOIN inventory ON products.product_id=inventory.product_id) WHERE quantity > 0 ORDER BY brand"
@@ -30,7 +31,7 @@ def get_brand():
 #Startsidan som läser in alla produkter som finns till salu i lagret
 @route("/")
 def start():
-    sql_products = "SELECT product_name, description, brand, price, image, category FROM (products JOIN inventory ON products.product_id=inventory.product_id) WHERE quantity > 0 ORDER BY product_name"
+    sql_products = "SELECT DISTINCT product_name, description, brand, price, image, category FROM (products JOIN inventory ON products.product_id=inventory.product_id) WHERE quantity > 0 ORDER BY product_name"
     cursor.execute(sql_products)
     products = cursor.fetchall()
     category = get_cat()
@@ -86,7 +87,6 @@ def list_search():
     category = category.lowercase()
     brand = brand.lower()
     user_input = user_input.lower()
-    print(user_input)
     sql_search = "SELECT product_name, description, brand, price, image FROM products WHERE product_name LIKE '%{}%'".format(user_input)
     cursor.execute(sql_search)
     search = cursor.fetchall()
