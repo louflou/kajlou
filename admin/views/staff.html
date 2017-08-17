@@ -29,27 +29,23 @@
 
 
                     <table>
-                        <form method="post" action="/add_customer">
+                        <form method="post" action="/add_staff">
                             <tr>
                                 <td>
                                     <i class="material-icons">perm_identity</i>
                                 </td>
                                 <td>
-                                    <input type="text" id="customer_name" name="customer_name" placeholder="För- och efternamn" required><br>
-                                    <input name ="pno" id="pno" type="text" placeholder="Personnummer" required>
+                                    <input name ="title" id="title" type="text" placeholder="Titel" required> <br>
+                                    <input name="staff_name" id="staff_name" type="text" placeholder="Namn" required>
                                 </td>
+                            </tr>
+                            <tr>
+                                <td><i class="material-icons">phone</i></td>
+                                <td><input type="text" id="phone" name="phone" placeholder="Telefonnummer" required></td>
                             </tr>
                             <tr>
                                 <td><i class="material-icons">email</i></td>
-                                <td><input name="email" id="email" type="text" placeholder="email" required></td>
-                            </tr>
-                            <tr>
-                                <td><i class="material-icons">location_on</i></td>
-                                <td>
-                                    <input type="text" id="address" name="address" placeholder="Adress" required> <br>
-                                    <input type="text" id="postno" name="postno" placeholder="Postnr" required> <br>
-                                    <input type="text" id="region" name="region" placeholder="Ort">
-                                </td>
+                                <td><input type="text" id="emial" name="email" placeholder="E-mail" required></td>
                             </tr>
                             <tr>
                                 <td></td>

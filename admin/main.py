@@ -2,14 +2,18 @@
 import psycopg2 #Används för att kopla till databasen
 import bottle #Ramverk som används för att underlätta skapandet av en websida
 import datetime
-from bottle import route, run, template, os, static_file, debug, request, redirect
-
+from bottle import route, run, template, os, static_file, debug, request, redirect, error,abort
 
 #Konnectar till databsen
 conn = psycopg2.connect(dbname="kajlou", user="ag8789", password="cl934pos", host="pgserver.mah.se")
 
 #Pekaren på databasen
 cursor = conn.cursor()
+
+@error(404)
+def custom404(error):
+    error_code = '404'
+    return template('error', error_code=error_code)
 
 # Laddar in CSS
 @route("/static/<filename:path>")
@@ -76,24 +80,27 @@ def add_customer():
 #Funktion som registrerar en produkt i datbasen utifrån infomration som hämtas ifrån ett HTML-formulär
 @route("/add_product", method="POST")
 def add_product():
-    product_name = str(request.forms.get("product_name"))
-    description = str(request.forms.get("description"))
-    category = str(request.forms.get("category"))
-    image = str(request.forms.get("product_image"))
-    brand = str(request.forms.get("brand"))
-    price = str(request.forms.get("price"))
-    cursor.execute("INSERT INTO products (product_name, description, brand, price, category, image) VALUES(%s, %s, %s, %s, %s, %s)", (product_name, description, brand, price, category, image))
-    conn.commit()
-    sql_get_product_id = "SELECT last_value FROM products_product_id_seq"
-    cursor.execute(sql_get_product_id)
-    product_id_tup = cursor.fetchone()
-    product_id = product_id_tup[0] #Hämtar ut det första värdet i tuplen
-    supplier = str(request.forms.get("supplier"))
-    product_cost = str(request.forms.get("cost"))
-    quantity = str(request.forms.get("quantity"))
-    cursor.execute("INSERT INTO inventory (product_id, supplier, product_cost, quantity) VALUES(%s, %s, %s, %s)", (product_id, supplier, product_cost, quantity))
-    conn.commit()
-    redirect("/inventory") #Skickar tillbaka användaren till funktionen inventory som läser in alla varor på nytt så att användaren kan se att produkten blivit registrerad
+    try:
+        product_name = str(request.forms.get("product_name"))
+        description = str(request.forms.get("description"))
+        category = str(request.forms.get("category"))
+        image = str(request.forms.get("product_image"))
+        brand = str(request.forms.get("brand"))
+        price = str(request.forms.get("price"))
+        cursor.execute("INSERT INTO products (product_name, description, brand, price, category, image) VALUES(%s, %s, %s, %s, %s, %s)", (product_name, description, brand, price, category, image))
+        conn.commit()
+        sql_get_product_id = "SELECT last_value FROM products_product_id_seq"
+        cursor.execute(sql_get_product_id)
+        product_id_tup = cursor.fetchone()
+        product_id = product_id_tup[0] #Hämtar ut det första värdet i tuplen
+        supplier = str(request.forms.get("supplier"))
+        product_cost = str(request.forms.get("cost"))
+        quantity = str(request.forms.get("quantity"))
+        cursor.execute("INSERT INTO inventory (product_id, supplier, product_cost, quantity) VALUES(%s, %s, %s, %s)", (product_id, supplier, product_cost, quantity))
+        conn.commit()
+        redirect("/inventory") #Skickar tillbaka användaren till funktionen inventory som läser in alla varor på nytt så att användaren kan se att produkten blivit registrerad
+    except:
+        return template('error')
 
 #Läser in all personal från databsen och ordnar dem efter staff_id
 @route("/staff")
@@ -102,6 +109,18 @@ def list_staff():
     cursor.execute(sql_staff)
     staff = cursor.fetchall()
     return template("staff", staff=staff)
+
+#Lägger till en anställd i databsen
+@route("/add_staff", method="POST")
+def add_staff():
+    title = str(request.forms.get("title"))
+    staff_name = str(request.forms.get("staff_name"))
+    phone = str(request.forms.get("phone"))
+    email = str(request.forms.get("email"))
+    cursor.execute("INSERT INTO staff (title, staff_name, phone, email) VALUES(%s, %s, %s, %s)", (title, staff_name, phone, email))
+    conn.commit()
+    redirect("/staff") #Skickas sen till funktionen "staff" som läser in alla anställda på nytt så att admin kan se att den anställde blivit reigstrerad
+
 
 #Läser in alla varor som finns i lagret
 @route("/inventory")
@@ -206,5 +225,5 @@ def list_supplier():
     return template("suppliers", supplier=supplier)
 
 #Kör systemet på följande address
-run(host="127.0.0.1", port=8112)
+run(host="127.0.0.1", port=8126, reloader=True)
 
