@@ -24,13 +24,10 @@
                 </ul>
             </nav>
             
-            <section class="sales">
-                <h3>Registrera köp</h3>
-                
-                    <table>
+            <section class="stock">
+                <table>
                         <form method="post" action="/begin_sales">
                             <tr>
-                                Hejsan välkommen att börja ditt köp:
                                 <td>
                                     <i class="material-icons">perm_identity</i> 
                                 </td>
@@ -41,7 +38,7 @@
                             </tr>
                             <tr>
                                 <td></td>
-                                <td><button type="submit">Påbörja köp</button></td>
+                                <td><button class="knapp" type="submit">Påbörja köp</button></td>
                             </tr>
                         </form>
                         
@@ -55,13 +52,13 @@
                             </tr>
                             <tr>
                                 <td></td>
-                                <td><button type="submit">Lägg till vara i köp</button></td>
+                                <td><button class="knapp" type="submit">Lägg till vara i köp</button></td>
                             </tr>
                         </form>
 
                             <tr>
                                 <td></td>
-                                <td><form action="/finish_sales" method="POST"><button type="submit">Avsluta köp!</button></form></td>
+                                <td><form action="/finish_sales" method="POST"><button class="knapp" type="submit">Avsluta köp!</button></form></td>
                             </tr>
                             
                             <tr>
@@ -79,7 +76,8 @@
               
             <section class="stock wider">
                 <article>
-                    <table id="inventory-table">                                 
+                    <table id="inventory-table">   
+                        <p>{{ (row[4]) }}</p>
                         <thead>
                             <th>Kvittonr:</th>
                             <th>Kundnr:</th>
@@ -96,7 +94,7 @@
                     <hr>
                     <table>
                         <thead>
-                            <th>Nr</th>
+                            <th>id</th>
                             <th>Produkt</th>
                             <th>Pris</th>
                             <th>Antal</th>
@@ -108,7 +106,7 @@
                                 <td>{{ (p[0]) }}</td>
                                 <td>{{ (p[2]) }} {{ (p[1]) }}</td>
                                 <td>{{ (p[3]) }} kr</td>
-                                <td>{{ (p[4]) }}</td>
+                                <td>{{ (p[4]) }} st</td>
                             </tr>
                 
                             % end

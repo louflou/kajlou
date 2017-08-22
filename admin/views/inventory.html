@@ -28,8 +28,8 @@
 
             <div class="row">
                 <ul>
-                    <li><a class="active" href="/inventory">Lager</a></li>
-                    <li><a href="/out_of_stock">Ej på lager</a></li>
+                    <li><a class="active" href="/inventory">Finns på lager</a></li>
+                    <li><a href="/out_of_stock">Finns ej på lager</a></li>
                 </ul>
             </div>
 
@@ -74,7 +74,7 @@
 
                             <tr>
                                 <td></td>
-                                <td><button type="submit">Registrera vara</button></td>
+                                <td><button class="knapp" type="submit">Registrera vara</button></td>
                             </tr>
                         </form>
                     </table>
@@ -83,32 +83,32 @@
 
             <section class="stock">
                 <article>
-                    <table>
+                    <table class="inventory-table">
                         Lägg till befintlig vara:
                         <form method="post" action="/update_product">
                             <tr>
-                                <td>
+                                <th>
                                     <i class="material-icons">loyalty</i>
-                                </td>
+                                </th>
                                 <td>
                                     <input type="text" id="x_product_id" name="x_product_id" placeholder="Produkt id" required><br>
                                 </td>
                             </tr>
                             <tr>
 
-                                <td><i class="material-icons">store</i></td>
+                                <th><i class="material-icons">store</i></th>
                                 <td>
                                     <input type="text" id="x_supplier" name="x_supplier" placeholder="Återförsäljare" required>
                                 </td>
                             </tr>
                             <tr>
-                                <td><i class="material-icons">receipt</i></td>
+                                <th><i class="material-icons">receipt</i></th>
                                 <td><input type="number" id="x_quantity" name="x_quantity" placeholder="Antal att lägga till"></td>
                             </tr>
 
                             <tr>
                                 <td></td>
-                                <td><button type="submit">Uppdatera vara</button></td>
+                                <td><button class="knapp" type="submit">Uppdatera vara</button></td>
                             </tr>
                         </form>
                     </table>
@@ -123,26 +123,26 @@
                 <p alt="Produktnr." class="pid">{{ (row[8]) }}</p>
                 <img src="{{ (row[3]) }}">
                 <article>
-                    <table id="inventory-table">
+                    <table class="inventory-table">
 
                         <h3>{{ (row[1]) }} {{ (row[0]) }} {{ (row[7]) }}</h3>
 
                         <tr>
-                            <td>
+                            <th>
                                 <i class="material-icons">store</i>
-                            </td>
+                            </th>
                             <td>{{ (row[4]) }}</td>
                         </tr>
                         <tr>
-                            <td><i class="material-icons">payment</i></td>
+                            <th><i class="material-icons">payment</i></th>
                             <td>{{ (row[6]) }} kr </td>
                         </tr>
                         <tr>
-                            <td><i class="material-icons">assessment</i></td>
+                            <th><i class="material-icons">assessment</i></th>
                             <td>{{ (row[2])-(row[6]) }} kr</td>
                         </tr>
                         <tr>
-                            <td><i class="material-icons">receipt</i></td>
+                            <th><i class="material-icons">receipt</i></th>
                             <td>{{ (row[5]) }} st på lager</td>
                         </tr>
 

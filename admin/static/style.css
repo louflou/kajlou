@@ -19,6 +19,7 @@ header h1 a:hover {
     overflow: hidden;
     padding:20px 40px;
     min-height: 600px;
+    box-shadow: 0 0 10px lightgray;
 }
 nav {
     width:100%;
@@ -51,17 +52,21 @@ nav a:hover {
     letter-spacing: 1.5px;
 }
 section {
-    transition: ease 1.5s;
+    //transition: ease 1.5s;
     padding: 10px;
-    border:1px dashed #eee;
+    //border:1px solid #eee;
+    box-shadow: 0 0 1px gainsboro;
     width: 22%;
     float: left;
     margin: 1%;
     box-sizing: border-box;
-    overflow: hidden;
+    overflow: scroll;
+}
+.icon {
+    width:20px;
 }
 .stock {
-    height: 480px; 
+    height: 500px; 
     overflow: scroll;
 }
 .staff {
@@ -89,7 +94,7 @@ section {
 }
 section.wider {
     width:500px !important;
-    height: 600px !important;
+    height: 500px !important;
 }
 
 section article {
@@ -101,18 +106,35 @@ section article {
     //height:300px;
     box-sizing: border-box;
 }
-
+input {
+    padding:5px 8px;
+    outline: none;
+    margin:2px;
+}
 th, td {
     padding:15px;
     text-align: left;
 }
-#inventory-table th, td{
+.inventory-table th {
+    width: 10%;
+}
+.inventory-table td{
     width:25%;
     box-sizing: border-box;
     padding: 10px !imporant;
     box-sizing: border-box;
-    width:30%;
     text-align:left;
+}
+.knapp {
+    background-color: gainsboro;
+    padding:10px 15px;
+    border-radius:2px;
+    transition:background ease-in-out 0.2s;
+}
+.knapp:hover{
+    background-color: whitesmoke;
+    box-shadow:0 0 1px gainsboro;
+    cursor: pointer;
 }
 td a{
     color:#777;
@@ -128,7 +150,7 @@ td a:hover {
 .row {
     width:100%;
     display:block;
-    border-top:1px dashed #eee;
+    border-top:1px solid #eee;
     overflow: hidden;
     display: block;
 }

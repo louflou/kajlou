@@ -27,50 +27,12 @@
 
             <div class="row">
                 <ul>
-                    <li><a href="/customers">Namn</a></li>
-                    <li><a href="/customers/values">Kundvärde</a></li>
+                    <li><a href="/customers">Samtliga kunder</a></li>
+                    <li><a class="active" href="/customers/values">Kundvärde</a></li>
                 </ul>
 
             </div>
-
-
-            <section class="staff">
-                <article>
-
-
-
-                    <table>
-                        Lägg till ny kund:
-                        <form method="post" action="/add_customer">
-                            <tr>
-                                <td>
-                                    <i class="material-icons">perm_identity</i>
-                                </td>
-                                <td>
-                                    <input type="text" id="customer_name" name="customer_name" placeholder="För- och efternamn" required><br>
-                                    <input name ="pno" id="pno" type="text" placeholder="Personnummer" required>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><i class="material-icons">email</i></td>
-                                <td><input name="email" id="email" type="text" placeholder="email" required></td>
-                            </tr>
-                            <tr>
-                                <td><i class="material-icons">location_on</i></td>
-                                <td>
-                                    <input type="text" id="address" name="address" placeholder="Adress" required> <br>
-                                    <input type="text" id="postno" name="postno" placeholder="Postnr" required> <br>
-                                    <input type="text" id="region" name="region" placeholder="Ort">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td><button type="submit">Registrera kund</button></td>
-                            </tr>
-                        </form>
-                    </table>
-                </article>
-            </section>
+            
 
 
              % for row in customers:
@@ -91,7 +53,7 @@
                         </tr>
                         <tr>
                             <td><i class="material-icons">attach_money</i></td>
-                            <td>{{ row[6] }}</td>
+                            <td>{{ row[6] }} kr</td>
                         </tr>
                     </table>
                 </article>

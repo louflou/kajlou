@@ -20,7 +20,6 @@ def custom404(error):
 def send_static(filename):
     return static_file(filename, root="./static/")
 
-
 #Visar startsidan (Tom - endast menyer för val via HTML)
 @route("/")
 def start():
@@ -145,7 +144,7 @@ def list_out_of_stock():
 #Läser in alla kvitton med försäljningar som gjorts
 @route("/sales")    
 def list_sales():
-    cursor.execute("SELECT sales_id, customer_id, staff_id, subtotal FROM sales_details")
+    cursor.execute("SELECT sales_id, customer_id, staff_id, subtotal, sales_date FROM sales_details")
     start = cursor.fetchall()
     products = {} #Skapar ett lexikon
     for row in start:
@@ -181,12 +180,12 @@ def add_to_sales():
     
     
     cursor.execute("INSERT INTO sales(sales_id, product_id, quantity) VALUES(%s, %s, %s)", (sales_id, product_id, quantity))
-    cursor.execute("UPDATE inventory SET quantity = {} WHERE product_id = {}".format(new_quantity, product_id))
+    cursor.execute("UPDATE inventory SET quantity = {} WHERE product_id = {} AND quantity >= {}".format(new_quantity, product_id, quantity))
     conn.commit()
     redirect("/sales")
 
 #Avslutar köpet
-@route("/finish_sales", method="POST")        
+@route("/finish_sales", method="POST")
 def finish_sales():
     cursor.execute("SELECT last_value FROM sales_details_sales_id_seq")
     sales_id_tup = cursor.fetchone()
@@ -196,10 +195,10 @@ def finish_sales():
     subtotal = total_tup[0]
 
     now = datetime.datetime.now() #Hämtar dagens datum och tid 
-    get_date = now.strftime("%Y-%m-%d %H:%M")
+    get_date = now.strftime("%Y-%m-%d")
     date = str(get_date)
     
-    cursor.execute("UPDATE sales_details SET subtotal = {0}, date = {1} WHERE sales_id = {2}".format(subtotal, date, sales_id))
+    cursor.execute("UPDATE sales_details SET subtotal = {0}, sales_date = '{1}' WHERE sales_id = {2}".format(subtotal, date, sales_id))
     conn.commit()
     redirect("/sales")
     
@@ -212,5 +211,5 @@ def list_supplier():
     return template("suppliers", supplier=supplier)
 
 #Kör systemet på följande address
-run(host="127.0.0.1", port=8112)
+run(host="127.0.0.1", port=8118)
 
