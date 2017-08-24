@@ -96,6 +96,10 @@ section.wider {
     width:500px !important;
     height: 500px !important;
 }
+.container {
+    width:1050px;
+    overflow: hidden;
+}
 
 section article {
     width:100%;

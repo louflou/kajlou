@@ -48,8 +48,7 @@ def add_customer():
     address = str(request.forms.get("address"))
     postno = str(request.forms.get("postno"))
     region = str(request.forms.get("region"))
-    total_sales = "0"
-    cursor.execute("INSERT INTO customers (pno, customer_name, email, address, postno, region, total_sales) VALUES(%s, %s, %s, %s, %s, %s, %s)", (pno, customer_name, email, address, postno, region, total_sales))
+    cursor.execute("INSERT INTO customers (pno, customer_name, email, address, postno, region) VALUES(%s, %s, %s, %s, %s, %s)", (pno, customer_name, email, address, postno, region))
     conn.commit()
     redirect("/customers") #Skickas sen till funktionen "customers" som läser in alla kunder på nytt så att användaren kan se att kunden blivit reigstrerad
 
@@ -144,7 +143,7 @@ def list_out_of_stock():
 #Läser in alla kvitton med försäljningar som gjorts
 @route("/sales")    
 def list_sales():
-    cursor.execute("SELECT sales_id, customer_id, staff_id, subtotal, sales_date FROM sales_details")
+    cursor.execute("SELECT sales_id, customer_id, staff_id, subtotal, sales_date FROM sales_details ORDER BY sales_id DESC")
     start = cursor.fetchall()
     products = {} #Skapar ett lexikon
     for row in start:
@@ -159,9 +158,15 @@ def list_sales():
 def reg_sales():
     customer = str(request.forms.get("customer_id"))
     vendor = str(request.forms.get("staff_id"))
-    cursor.execute("INSERT INTO sales_details(customer_id, staff_id) VALUES(%s, %s)", (customer, vendor))
+
+    now = datetime.datetime.now() #Hämtar dagens datum och tid 
+    get_date = now.strftime("%Y-%m-%d")
+    date = str(get_date)
+    
+    cursor.execute("INSERT INTO sales_details(customer_id, staff_id, sales_date) VALUES(%s, %s, %s)", (customer, vendor, date))
     conn.commit()
     redirect("/sales")
+
 
 #Lägger till varor för kvittot kopplat till sales_details
 @route("/add_product_to_sales", method="POST")
@@ -193,12 +198,8 @@ def finish_sales():
     cursor.execute("SELECT SUM(quantity * price) FROM sales JOIN products ON sales.product_id=products.product_id WHERE sales_id={}".format(sales_id))
     total_tup = cursor.fetchone()
     subtotal = total_tup[0]
-
-    now = datetime.datetime.now() #Hämtar dagens datum och tid 
-    get_date = now.strftime("%Y-%m-%d")
-    date = str(get_date)
     
-    cursor.execute("UPDATE sales_details SET subtotal = {0}, sales_date = '{1}' WHERE sales_id = {2}".format(subtotal, date, sales_id))
+    cursor.execute("UPDATE sales_details SET subtotal = {} WHERE sales_id = {}".format(subtotal, sales_id))
     conn.commit()
     redirect("/sales")
     
