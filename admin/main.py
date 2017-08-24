@@ -15,6 +15,10 @@ def custom404(error):
     error_code = '404'
     return template('error', error_code=error_code)
 
+@route("/error_quantity")
+def error():
+    return template('error_quantity')
+    
 # Laddar in CSS
 @route("/static/<filename:path>")
 def send_static(filename):
@@ -69,7 +73,7 @@ def add_product():
         product_name = str(request.forms.get("product_name"))
         description = str(request.forms.get("description"))
         category = str(request.forms.get("category"))
-        image = str(request.forms.get("product_image"))
+        image = str(request.forms.get("product_image")) 
         brand = str(request.forms.get("brand"))
         price = str(request.forms.get("price"))
         cursor.execute("INSERT INTO products (product_name, description, brand, price, category, image) VALUES(%s, %s, %s, %s, %s, %s)", (product_name, description, brand, price, category, image))
@@ -178,16 +182,14 @@ def add_to_sales():
     product_id = str(request.forms.get("product_id"))
     quantity = str(request.forms.get("quantity"))
     
-    cursor.execute("SELECT quantity FROM inventory WHERE product_id = {}".format(product_id))
-    current_quantity_tup = cursor.fetchone()
-    current_quantity = current_quantity_tup[0]
-    new_quantity = int(current_quantity) - int(quantity)
-    
-    
-    cursor.execute("INSERT INTO sales(sales_id, product_id, quantity) VALUES(%s, %s, %s)", (sales_id, product_id, quantity))
-    cursor.execute("UPDATE inventory SET quantity = {} WHERE product_id = {} AND quantity >= {}".format(new_quantity, product_id, quantity))
-    conn.commit()
-    redirect("/sales")
+    if int(current_quantity) >= int(quantity):
+        new_quantity = int(current_quantity) - int(quantity)
+        cursor.execute("INSERT INTO sales(sales_id, product_id, quantity) VALUES(%s, %s, %s)", (sales_id, product_id, quantity))
+        cursor.execute("UPDATE inventory SET quantity = {} WHERE product_id = {} AND quantity >= {}".format(new_quantity, product_id, new_quantity))
+        conn.commit()
+        redirect("/sales")
+    else:
+        redirect("/error_quantity")
 
 #Avslutar köpet
 @route("/finish_sales", method="POST")
@@ -212,5 +214,5 @@ def list_supplier():
     return template("suppliers", supplier=supplier)
 
 #Kör systemet på följande address
-run(host="127.0.0.1", port=8118)
+run(host="127.0.0.1", port=8120)
 
