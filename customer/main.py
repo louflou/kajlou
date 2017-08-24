@@ -41,7 +41,7 @@ def start():
 #Sorterar varorna i lagret efter kategorin som användaren väljer
 @route("/category/<category>")
 def sort_category(category):
-    sql_sort_category = "SELECT product_name, description, brand, price, image, category FROM (products JOIN inventory ON products.product_id=inventory.product_id) WHERE quantity > 0 AND category= %s ORDER BY product_name ASC"
+    sql_sort_category = "SELECT DISTINCT product_name, description, brand, price, image, category FROM (products JOIN inventory ON products.product_id=inventory.product_id) WHERE quantity > 0 AND category= %s ORDER BY product_name ASC"
     cursor.execute(sql_sort_category, [category])
     products = cursor.fetchall()
     category = get_cat()
@@ -51,7 +51,7 @@ def sort_category(category):
 #Sorterar varorna efter märket som användaren väljer
 @route("/brand/<brand>")
 def sort_brand(brand):
-    sql_sort_brand = "SELECT product_name, description, brand, price, image FROM (products JOIN inventory ON products.product_id=inventory.product_id) WHERE quantity > 0 AND brand = %s ORDER BY product_name ASC"
+    sql_sort_brand = "SELECT DISTINCT product_name, description, brand, price, image FROM (products JOIN inventory ON products.product_id=inventory.product_id) WHERE quantity > 0 AND brand = %s ORDER BY product_name ASC"
     cursor.execute(sql_sort_brand, [brand])
     products = cursor.fetchall()
     category = get_cat()
