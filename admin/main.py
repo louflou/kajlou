@@ -9,20 +9,17 @@ conn = psycopg2.connect(dbname="kajlou", user="ag8789", password="cl934pos", hos
 
 #Pekaren på databasen
 cursor = conn.cursor()
-
-@error(404)
-def custom404(error):
-    error_code = '404'
-    return template('error', error_code=error_code)
-
-@route("/error_quantity")
-def error():
-    return template('error_quantity')
     
 # Laddar in CSS
 @route("/static/<filename:path>")
 def send_static(filename):
     return static_file(filename, root="./static/")
+
+#Hanterar 404-fel
+@error(404)
+def custom404(error):
+    error_code = '404'
+    return template('error', error_code=error_code)
 
 #Visar startsidan (Tom - endast menyer för val via HTML)
 @route("/")
@@ -52,7 +49,8 @@ def add_customer():
     address = str(request.forms.get("address"))
     postno = str(request.forms.get("postno"))
     region = str(request.forms.get("region"))
-    cursor.execute("INSERT INTO customers (pno, customer_name, email, address, postno, region) VALUES(%s, %s, %s, %s, %s, %s)", (pno, customer_name, email, address, postno, region))
+    total_sales = "0" #Kunden måste registreras först innan den kan göra ett köp
+    cursor.execute("INSERT INTO customers (pno, customer_name, email, address, postno, region, total_sales) VALUES(%s, %s, %s, %s, %s, %s, %s)", (pno, customer_name, email, address, postno, region, total_sales))
     conn.commit()
     redirect("/customers") #Skickas sen till funktionen "customers" som läser in alla kunder på nytt så att användaren kan se att kunden blivit reigstrerad
 
@@ -78,7 +76,7 @@ def add_product():
         price = str(request.forms.get("price"))
         cursor.execute("INSERT INTO products (product_name, description, brand, price, category, image) VALUES(%s, %s, %s, %s, %s, %s)", (product_name, description, brand, price, category, image))
         conn.commit()
-        sql_get_product_id = "SELECT last_value FROM products_product_id_seq"
+        sql_get_product_id = "SELECT last_value FROM products_product_id_seq" #Hämtar senaste använda värdet för att kunna lögga till produkter
         cursor.execute(sql_get_product_id)
         product_id_tup = cursor.fetchone()
         product_id = product_id_tup[0] #Hämtar ut det första värdet i tuplen
@@ -149,12 +147,12 @@ def list_out_of_stock():
 def list_sales():
     cursor.execute("SELECT sales_id, customer_id, staff_id, subtotal, sales_date FROM sales_details ORDER BY sales_id DESC")
     start = cursor.fetchall()
-    products = {} #Skapar ett lexikon
+    products = {} #Skapar ett lexikon för alla köp
     for row in start:
         receipt = str(row[0]) 
         cursor.execute("SELECT products.product_id, category, brand, price, quantity FROM sales JOIN products ON sales.product_id=products.product_id WHERE sales_id = {}".format(receipt))
         plist = cursor.fetchall()
-        products[receipt] = plist #Använder sales_id som nyckel för lexikonet för alla produkter
+        products[receipt] = plist #Använder sales_id som nyckel i lexikonet för alla produkter
     return template("sales", start=start, products=products)
 
 #Påbörjar en försäljning genom att registrerar en säljare och kund i tabellen sales_details
@@ -162,15 +160,9 @@ def list_sales():
 def reg_sales():
     customer = str(request.forms.get("customer_id"))
     vendor = str(request.forms.get("staff_id"))
-
-    now = datetime.datetime.now() #Hämtar dagens datum och tid 
-    get_date = now.strftime("%Y-%m-%d")
-    date = str(get_date)
-    
-    cursor.execute("INSERT INTO sales_details(customer_id, staff_id, sales_date) VALUES(%s, %s, %s)", (customer, vendor, date))
+    cursor.execute("INSERT INTO sales_details(customer_id, staff_id) VALUES(%s, %s)", (customer, vendor))
     conn.commit()
     redirect("/sales")
-
 
 #Lägger till varor för kvittot kopplat till sales_details
 @route("/add_product_to_sales", method="POST")
@@ -182,7 +174,7 @@ def add_to_sales():
     product_id = str(request.forms.get("product_id"))
     quantity = str(request.forms.get("quantity"))
     
-    if int(current_quantity) >= int(quantity):
+    if int(current_quantity) >= int(quantity): #Om antalet produkter är fler eller lika många som de som vill köpas
         new_quantity = int(current_quantity) - int(quantity)
         cursor.execute("INSERT INTO sales(sales_id, product_id, quantity) VALUES(%s, %s, %s)", (sales_id, product_id, quantity))
         cursor.execute("UPDATE inventory SET quantity = {} WHERE product_id = {} AND quantity >= {}".format(new_quantity, product_id, new_quantity))
@@ -190,6 +182,11 @@ def add_to_sales():
         redirect("/sales")
     else:
         redirect("/error_quantity")
+
+#Visas om användaren försöker köpa fler produkter av en vara än vad som är registrerat i databasen
+@route("/error_quantity")
+def error():
+    return template('error_quantity')
 
 #Avslutar köpet
 @route("/finish_sales", method="POST")
@@ -200,8 +197,12 @@ def finish_sales():
     cursor.execute("SELECT SUM(quantity * price) FROM sales JOIN products ON sales.product_id=products.product_id WHERE sales_id={}".format(sales_id))
     total_tup = cursor.fetchone()
     subtotal = total_tup[0]
+
+    now = datetime.datetime.now() #Hämtar dagens datum och tid 
+    get_date = now.strftime("%Y-%m-%d")
+    date = str(get_date)
     
-    cursor.execute("UPDATE sales_details SET subtotal = {} WHERE sales_id = {}".format(subtotal, sales_id))
+    cursor.execute("UPDATE sales_details SET subtotal = {0}, sales_date = '{1}' WHERE sales_id = {2}".format(subtotal, date, sales_id))
     conn.commit()
     redirect("/sales")
     
@@ -214,5 +215,4 @@ def list_supplier():
     return template("suppliers", supplier=supplier)
 
 #Kör systemet på följande address
-run(host="127.0.0.1", port=8120)
-
+run(host="127.0.0.1", port=8112)
