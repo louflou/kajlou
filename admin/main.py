@@ -181,7 +181,9 @@ def add_to_sales():
     sales_id = int(sales_id_tup[0])
     product_id = str(request.forms.get("product_id"))
     quantity = str(request.forms.get("quantity"))
-    
+    cursor.execute("SELECT quantity FROM inventory WHERE product_id = {}".format(product_id))
+    current_quantity_tup = cursor.fetchone()
+    current_quantity = current_quantity_tup[0]
     if int(current_quantity) >= int(quantity):
         new_quantity = int(current_quantity) - int(quantity)
         cursor.execute("INSERT INTO sales(sales_id, product_id, quantity) VALUES(%s, %s, %s)", (sales_id, product_id, quantity))
